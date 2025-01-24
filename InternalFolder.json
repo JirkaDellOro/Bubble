@@ -1,0 +1,31 @@
+{
+  "Fudge.ResourceFolder": {
+    "name": "Resources",
+    "entries": [
+      {
+        "idResource": "Graph|2025-01-24T21:13:32.613Z|97597"
+      },
+      {
+        "idResource": "MeshSphere|2025-01-24T21:13:39.028Z|15385"
+      },
+      {
+        "idResource": "Material|2025-01-24T21:13:48.615Z|74722"
+      },
+      {
+        "idResource": "Graph|2025-01-24T21:14:48.191Z|65927"
+      },
+      {
+        "idResource": "Material|2025-01-24T21:16:31.359Z|56156"
+      },
+      {
+        "idResource": "Material|2025-01-24T21:17:04.643Z|10948"
+      },
+      {
+        "idResource": "MeshCube|2025-01-24T21:20:34.582Z|04618"
+      },
+      {
+        "idResource": "Material|2025-01-24T21:20:57.776Z|96327"
+      }
+    ]
+  }
+}
