@@ -7,6 +7,22 @@ namespace Script {
 
   async function start(_event: CustomEvent): Promise<void> {
     viewport = _event.detail;
+    viewport.camera.mtxPivot.translateZ(-5);
+    let graph: ƒ.Node = viewport.getBranch();
+
+
+    // setup audio
+    let cmpListener/* : ƒ.ComponentAudioListener */ = new ƒ.ComponentAudioListener();
+    graph.addComponent(cmpListener);
+    ƒ.AudioManager.default.listenWith(cmpListener);
+    ƒ.AudioManager.default.listenTo(graph);
+    ƒ.Debug.log("Audio:", ƒ.AudioManager.default);
+
+    // draw viewport once for immediate feedback
+    ƒ.Render.prepare(graph);
+    viewport.draw();
+
+    // dispatch event to signal startup done
     ƒ.Debug.setFilter(ƒ.DebugTextArea, ƒ.DEBUG_FILTER.ALL);
     document.body.appendChild(ƒ.DebugTextArea.textArea);
 
