@@ -1,0 +1,9 @@
+{
+  "name": "Bubble nit",
+  "short_name": "Bubble nit",
+  "start_url": ".",
+  "display": "fullscreen",
+  "background_color" : "#f00" ,
+  "orientation": "landscape",
+  "description": "A game created during 'THE LÄND Global Game Jam 2025'"
+}
