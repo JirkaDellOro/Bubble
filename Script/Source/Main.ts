@@ -52,12 +52,13 @@ namespace Script {
     ƒ.AudioManager.default.update();
   }
 
-  function hndEvent(_event: ƒ.EventUnified) {
+  function hndEvent(_event: ƒ.EventUnified | PointerEvent) {
     ƒ.Debug.log(_event.type);
     switch (_event.type) {
       case (ƒ.EVENT_TOUCH.TAP):
       case ("pointerdown"):
         ƒ.DebugTextArea.textArea.style.backgroundColor = "green";
+        viewport.dispatchPointerEvent(<PointerEvent>_event)
         break;
       case (ƒ.EVENT_TOUCH.NOTCH):
       case ("pointerup"):

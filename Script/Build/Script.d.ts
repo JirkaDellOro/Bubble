@@ -1,4 +1,13 @@
 declare namespace Script {
+    import ƒ = FudgeCore;
+    class Cube extends ƒ.ComponentScript {
+        #private;
+        static readonly iSubclass: number;
+        constructor();
+        hndEvent: (_event: Event) => void;
+    }
+}
+declare namespace Script {
 }
 declare namespace Script {
     import ƒ = FudgeCore;

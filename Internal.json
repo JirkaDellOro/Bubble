@@ -165,11 +165,33 @@
       "type": "Graph"
     }
   },
+  "MeshQuad|2025-01-25T12:38:43.351Z|53133": {
+    "ƒ.MeshQuad": {
+      "idResource": "MeshQuad|2025-01-25T12:38:43.351Z|53133",
+      "name": "Quad"
+    }
+  },
   "Graph|2025-01-25T12:36:35.361Z|88195": {
     "ƒ.Graph": {
       "name": "Cube",
       "active": true,
-      "components": {},
+      "components": {
+        "ComponentPick": [
+          {
+            "ƒ.ComponentPick": {
+              "active": true,
+              "pick": "radius"
+            }
+          }
+        ],
+        "Cube": [
+          {
+            "Script.Cube": {
+              "active": true
+            }
+          }
+        ]
+      },
       "children": [
         {
           "ƒ.Node": {
@@ -426,12 +448,6 @@
       ],
       "idResource": "Graph|2025-01-25T12:36:35.361Z|88195",
       "type": "Graph"
-    }
-  },
-  "MeshQuad|2025-01-25T12:38:43.351Z|53133": {
-    "ƒ.MeshQuad": {
-      "idResource": "MeshQuad|2025-01-25T12:38:43.351Z|53133",
-      "name": "Quad"
     }
   }
 }
