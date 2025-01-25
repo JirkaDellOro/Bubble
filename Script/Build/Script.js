@@ -17,6 +17,7 @@ var Script;
             super();
             this.mtxCurrent = new ƒ.Matrix4x4();
             this.textures = [];
+            this.free = true;
             // Activate the functions of this component as response to events
             this.hndEvent = (_event) => {
                 switch (_event.type) {
@@ -39,7 +40,8 @@ var Script;
                 }
             };
             this.hndPointerEvent = (_event) => {
-                console.log(_event.type);
+                if (!this.free)
+                    return;
                 switch (_event.type) {
                     case "pointerdown":
                         this.start = new ƒ.Vector2(_event.offsetX, _event.offsetY);
@@ -65,6 +67,7 @@ var Script;
                 this.start = null;
                 ƒ.DebugTextArea.textArea.style.backgroundColor = "green";
                 if (move.magnitude > 9.9) {
+                    this.free = false;
                     ƒ.DebugTextArea.textArea.style.backgroundColor = "red";
                     const step = 6;
                     if (Math.abs(move.x) > Math.abs(move.y))
@@ -77,6 +80,7 @@ var Script;
                             this.cube.mtxLocal.copy(this.mtxCurrent);
                             this.node.mtxLocal.copy(Cube.indentity);
                             this.rotateTextures(move);
+                            this.free = true;
                         }
                     });
                     return;
@@ -149,7 +153,7 @@ var Script;
         }
         rotate(_node, _move) {
             _node.mtxLocal.rotateX(_move.y, true);
-            _node.mtxLocal.rotateY(_move.x, true);
+            _node.mtxLocal.rotateY(_move.x);
         }
         rotateTextures(_move) {
             let direction = "left";

@@ -11,8 +11,9 @@ namespace Script {
     private mtxCurrent: ƒ.Matrix4x4 = new ƒ.Matrix4x4();
     private cube: ƒ.Node;
     private textures: ƒ.Texture[] = [];
+    private free: boolean = true;
+    
     private static indentity: ƒ.Matrix4x4 = ƒ.Matrix4x4.IDENTITY();
-
     private static rotate: { [key: string]: number[] } = {
       left: [1, 2, 3, 0, 4, 5],
       right: [3, 0, 1, 2, 4, 5],
@@ -112,8 +113,9 @@ namespace Script {
     }
 
     private hndPointerEvent = (_event: PointerEvent): void => {
-      console.log(_event.type);
-
+      if (!this.free)
+        return;
+      
       switch (_event.type) {
         case "pointerdown":
           this.start = new ƒ.Vector2(_event.offsetX, _event.offsetY);
@@ -143,6 +145,7 @@ namespace Script {
       ƒ.DebugTextArea.textArea.style.backgroundColor = "green";
 
       if (move.magnitude > 9.9) {
+        this.free = false;
         ƒ.DebugTextArea.textArea.style.backgroundColor = "red";
         const step: number = 6;
         if (Math.abs(move.x) > Math.abs(move.y))
@@ -156,6 +159,7 @@ namespace Script {
             this.cube.mtxLocal.copy(this.mtxCurrent);
             this.node.mtxLocal.copy(Cube.indentity);
             this.rotateTextures(move);
+            this.free = true;
           }
         });
         return;
@@ -166,7 +170,7 @@ namespace Script {
 
     private rotate(_node: ƒ.Node, _move: ƒ.Vector2): void {
       _node.mtxLocal.rotateX(_move.y, true);
-      _node.mtxLocal.rotateY(_move.x, true);
+      _node.mtxLocal.rotateY(_move.x);
     }
 
     rotateTextures(_move: ƒ.Vector2) {

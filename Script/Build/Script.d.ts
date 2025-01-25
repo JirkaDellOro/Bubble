@@ -7,6 +7,7 @@ declare namespace Script {
         private mtxCurrent;
         private cube;
         private textures;
+        private free;
         private static indentity;
         private static rotate;
         constructor();
