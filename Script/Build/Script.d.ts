@@ -7,8 +7,10 @@ declare namespace Script {
         private cube;
         constructor();
         hndEvent: (_event: Event) => void;
-        hndPointerEvent: (_event: PointerEvent) => void;
-        reset: (_event?: CustomEvent) => void;
+        private hndPointerEvent;
+        private reset;
+        private rotate;
+        private calcMove;
     }
 }
 declare namespace Script {

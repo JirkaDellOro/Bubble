@@ -43,7 +43,7 @@ namespace Script {
       }
     }
 
-    public hndPointerEvent = (_event: PointerEvent): void => {
+    private hndPointerEvent = (_event: PointerEvent): void => {
       console.log(_event.type);
 
       switch (_event.type) {
@@ -54,24 +54,56 @@ namespace Script {
         case "pointermove":
           if (!this.start)
             return;
-          let move: ƒ.Vector2 = ƒ.Recycler.reuse(ƒ.Vector2);
-          move.set(_event.offsetX - this.start.x, this.start.y - _event.offsetY);
-          let mag: number = move.magnitude;
-          if (mag > 10)
-            move.normalize(10);
+          const move: ƒ.Vector2 = this.calcMove(_event);
           this.cube.mtxLocal.copy(this.mtxCurrent);
-          this.cube.mtxLocal.rotateX(move.y, true);
-          this.cube.mtxLocal.rotateY(move.x);
+          this.rotate(this.cube, move);
+          ƒ.Recycler.store(move);
           break;
         case "pointerup":
-          this.reset();
+          this.reset(_event);
           break;
       }
     }
 
-    public reset = (_event?: CustomEvent): void => {
-      this.cube.mtxLocal.copy(this.mtxCurrent);
+
+    private reset = (_event?: CustomEvent | PointerEvent): void => {
+      if (!this.start)
+        return;
+
+      const move: ƒ.Vector2 = this.calcMove(_event instanceof PointerEvent ? _event : _event.detail);
       this.start = null;
+      ƒ.DebugTextArea.textArea.style.backgroundColor = "green";
+
+      if (move.magnitude > 9.9) {
+        ƒ.DebugTextArea.textArea.style.backgroundColor = "red";
+        if (Math.abs(move.x) > Math.abs(move.y))
+          move.set(move.x = move.x < 0 ? -2 : 2, 0);
+        else
+          move.set(0, move.y = move.y < 0 ? -2 : 2);
+
+        ƒ.Time.game.setTimer(10, 45, (_event: ƒ.EventTimer) => {
+          this.rotate(this.node, move)
+          if (_event.lastCall)
+            this.cube.mtxLocal.copy(this.mtxCurrent);
+        });
+        return;
+      }
+
+      this.cube.mtxLocal.copy(this.mtxCurrent);
+    }
+
+    private rotate(_node: ƒ.Node, _move: ƒ.Vector2): void {
+      _node.mtxLocal.rotateX(_move.y, true);
+      _node.mtxLocal.rotateY(_move.x, true);
+    }
+
+    private calcMove = (_event: PointerEvent): ƒ.Vector2 => {
+      let move: ƒ.Vector2 = ƒ.Recycler.get(ƒ.Vector2);
+      move.set(_event.offsetX - this.start.x, this.start.y - _event.offsetY);
+      let mag: number = move.magnitude;
+      if (mag > 10)
+        move.normalize(10);
+      return move;
     }
 
     // protected reduceMutator(_mutator: ƒ.Mutator): void {

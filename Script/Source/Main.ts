@@ -63,17 +63,8 @@ namespace Script {
 
     viewport.dispatchPointerEvent(<PointerEvent>_event)
     switch (_event.type) {
-      // case (ƒ.EVENT_TOUCH.TAP):
-      case ("pointerdown"):
-        ƒ.DebugTextArea.textArea.style.backgroundColor = "green";
-        break;
-      case ("pointermove"):
-        ƒ.DebugTextArea.textArea.style.backgroundColor = "yellow";
-        break;
-      // case (ƒ.EVENT_TOUCH.NOTCH):
       case ("pointerup"):
-        ƒ.DebugTextArea.textArea.style.backgroundColor = "blue";
-        graph.broadcastEvent(new CustomEvent("reset"));
+        graph.broadcastEvent(new CustomEvent("reset", { detail: _event }));
         break;
     }
   }

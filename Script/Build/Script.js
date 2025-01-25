@@ -38,23 +38,44 @@ var Script;
                     case "pointermove":
                         if (!this.start)
                             return;
-                        let move = ƒ.Recycler.reuse(ƒ.Vector2);
-                        move.set(_event.offsetX - this.start.x, this.start.y - _event.offsetY);
-                        let mag = move.magnitude;
-                        if (mag > 10)
-                            move.normalize(10);
+                        const move = this.calcMove(_event);
                         this.cube.mtxLocal.copy(this.mtxCurrent);
-                        this.cube.mtxLocal.rotateX(move.y, true);
-                        this.cube.mtxLocal.rotateY(move.x);
+                        this.rotate(this.cube, move);
+                        ƒ.Recycler.store(move);
                         break;
                     case "pointerup":
-                        this.reset();
+                        this.reset(_event);
                         break;
                 }
             };
             this.reset = (_event) => {
-                this.cube.mtxLocal.copy(this.mtxCurrent);
+                if (!this.start)
+                    return;
+                const move = this.calcMove(_event instanceof PointerEvent ? _event : _event.detail);
                 this.start = null;
+                ƒ.DebugTextArea.textArea.style.backgroundColor = "green";
+                if (move.magnitude > 9.9) {
+                    ƒ.DebugTextArea.textArea.style.backgroundColor = "red";
+                    if (Math.abs(move.x) > Math.abs(move.y))
+                        move.set(move.x = move.x < 0 ? -2 : 2, 0);
+                    else
+                        move.set(0, move.y = move.y < 0 ? -2 : 2);
+                    ƒ.Time.game.setTimer(10, 45, (_event) => {
+                        this.rotate(this.node, move);
+                        if (_event.lastCall)
+                            this.cube.mtxLocal.copy(this.mtxCurrent);
+                    });
+                    return;
+                }
+                this.cube.mtxLocal.copy(this.mtxCurrent);
+            };
+            this.calcMove = (_event) => {
+                let move = ƒ.Recycler.get(ƒ.Vector2);
+                move.set(_event.offsetX - this.start.x, this.start.y - _event.offsetY);
+                let mag = move.magnitude;
+                if (mag > 10)
+                    move.normalize(10);
+                return move;
             };
             // Don't start when running in editor
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
@@ -63,6 +84,10 @@ var Script;
             this.addEventListener("componentAdd" /* ƒ.EVENT.COMPONENT_ADD */, this.hndEvent);
             this.addEventListener("componentRemove" /* ƒ.EVENT.COMPONENT_REMOVE */, this.hndEvent);
             this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, this.hndEvent);
+        }
+        rotate(_node, _move) {
+            _node.mtxLocal.rotateX(_move.y, true);
+            _node.mtxLocal.rotateY(_move.x, true);
         }
     }
     Script.Cube = Cube;
@@ -121,17 +146,8 @@ var Script;
             cube.getChild(0).radius = 0.5; //smaller radius for picking
         viewport.dispatchPointerEvent(_event);
         switch (_event.type) {
-            // case (ƒ.EVENT_TOUCH.TAP):
-            case ("pointerdown"):
-                ƒ.DebugTextArea.textArea.style.backgroundColor = "green";
-                break;
-            case ("pointermove"):
-                ƒ.DebugTextArea.textArea.style.backgroundColor = "yellow";
-                break;
-            // case (ƒ.EVENT_TOUCH.NOTCH):
             case ("pointerup"):
-                ƒ.DebugTextArea.textArea.style.backgroundColor = "blue";
-                graph.broadcastEvent(new CustomEvent("reset"));
+                graph.broadcastEvent(new CustomEvent("reset", { detail: _event }));
                 break;
         }
     }
