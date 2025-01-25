@@ -3,11 +3,10 @@ namespace Script {
   ƒ.Debug.info("Main Program Template running!");
 
   let viewport: ƒ.Viewport;
-  document.addEventListener("interactiveViewportStarted", <EventListener>start);
+  document.addEventListener("interactiveViewportStarted", <EventListener><unknown>start);
 
-  async function start(_event: CustomEvent): void {
+  async function start(_event: CustomEvent): Promise<void> {
     viewport = _event.detail;
-
 
     const cube: ƒ.Node = viewport.getBranch().getChildrenByName("Cube")![0];
     for (let side: number = 0; side < 6; side++) {
