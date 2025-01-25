@@ -3,12 +3,14 @@ namespace Script {
   ƒ.Debug.info("Main Program Template running!");
 
   let viewport: ƒ.Viewport;
+  let cubes: ƒ.Node[];
+  let graph: ƒ.Node;
   document.addEventListener("interactiveViewportStarted", <EventListener><unknown>start);
 
   async function start(_event: CustomEvent): Promise<void> {
     viewport = _event.detail;
     viewport.camera.mtxPivot.translateZ(-5);
-    let graph: ƒ.Node = viewport.getBranch();
+    graph = viewport.getBranch();
 
 
     // setup audio
@@ -30,16 +32,19 @@ namespace Script {
     ƒ.Debug.log(touch);
     document.addEventListener(ƒ.EVENT_TOUCH.TAP, hndEvent)
     document.addEventListener("pointerdown", hndEvent)
+    document.addEventListener("pointermove", hndEvent)
     document.addEventListener("pointerup", hndEvent)
 
-    const cube: ƒ.Node = viewport.getBranch().getChildrenByName("Cube")![0];
-    for (let side: number = 0; side < 6; side++) {
-      const node: ƒ.Node = cube.getChild(side);
-      const txr: ƒ.TextureCanvas = await createTexture(side.toString());
-      const mtr: ƒ.Material = new ƒ.Material(side.toString(), ƒ.ShaderFlatTextured);
-      (<ƒ.CoatTextured>mtr.coat).texture = txr;
-      node.removeComponent(node.getComponent(ƒ.ComponentMaterial));
-      node.addComponent(new ƒ.ComponentMaterial(mtr));
+    cubes = viewport.getBranch().getChildrenByName("Cube");
+    for (let cube of cubes) {
+      for (let side: number = 0; side < 6; side++) {
+        const node: ƒ.Node = cube.getChild(0).getChild(side);
+        const txr: ƒ.TextureCanvas = await createTexture(side.toString());
+        const mtr: ƒ.Material = new ƒ.Material(side.toString(), ƒ.ShaderFlatTextured);
+        (<ƒ.CoatTextured>mtr.coat).texture = txr;
+        node.removeComponent(node.getComponent(ƒ.ComponentMaterial));
+        node.addComponent(new ƒ.ComponentMaterial(mtr));
+      }
     }
 
     ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);
@@ -53,16 +58,22 @@ namespace Script {
   }
 
   function hndEvent(_event: ƒ.EventUnified | PointerEvent) {
-    ƒ.Debug.log(_event.type);
+    for (let cube of cubes)
+      cube.getChild(0).radius = 0.5; //smaller radius for picking
+
+    viewport.dispatchPointerEvent(<PointerEvent>_event)
     switch (_event.type) {
-      case (ƒ.EVENT_TOUCH.TAP):
+      // case (ƒ.EVENT_TOUCH.TAP):
       case ("pointerdown"):
         ƒ.DebugTextArea.textArea.style.backgroundColor = "green";
-        viewport.dispatchPointerEvent(<PointerEvent>_event)
         break;
-      case (ƒ.EVENT_TOUCH.NOTCH):
+      case ("pointermove"):
+        ƒ.DebugTextArea.textArea.style.backgroundColor = "yellow";
+        break;
+      // case (ƒ.EVENT_TOUCH.NOTCH):
       case ("pointerup"):
         ƒ.DebugTextArea.textArea.style.backgroundColor = "blue";
+        graph.broadcastEvent(new CustomEvent("reset"));
         break;
     }
   }

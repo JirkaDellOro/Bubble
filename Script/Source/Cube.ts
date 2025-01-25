@@ -5,7 +5,9 @@ namespace Script {
   export class Cube extends ƒ.ComponentScript {
     // Register the script as component for use in the editor via drag&drop
     public static readonly iSubclass: number = ƒ.Component.registerSubclass(Cube);
-    #cmpMeshPivot: ƒ.Matrix4x4;
+    private start: ƒ.Vector2;
+    private mtxCurrent: ƒ.Matrix4x4 = new ƒ.Matrix4x4();
+    private cube: ƒ.Node;
 
 
     constructor() {
@@ -25,19 +27,51 @@ namespace Script {
     public hndEvent = (_event: Event): void => {
       switch (_event.type) {
         case ƒ.EVENT.COMPONENT_ADD:
-          this.node.addEventListener("pointerdown", this.hndEvent);
+          this.node.addEventListener("pointerdown", <ƒ.EventListenerUnified>this.hndPointerEvent);
+          this.node.addEventListener("pointermove", <ƒ.EventListenerUnified>this.hndPointerEvent);
+          this.node.addEventListener("pointerup", <ƒ.EventListenerUnified>this.hndPointerEvent);
+          this.node.addEventListener("reset", this.reset, true);
           break;
         case ƒ.EVENT.COMPONENT_REMOVE:
           this.removeEventListener(ƒ.EVENT.COMPONENT_ADD, this.hndEvent);
           this.removeEventListener(ƒ.EVENT.COMPONENT_REMOVE, this.hndEvent);
           break;
         case ƒ.EVENT.NODE_DESERIALIZED:
-          this.#cmpMeshPivot = this.node.getComponent(ƒ.ComponentMesh).mtxPivot;
-          break;
-        case "pointerdown":
-          ƒ.Debug.log(this.node.name);
+          this.cube = this.node.getParent();
+          this.mtxCurrent.copy(this.cube.mtxLocal.clone);
           break;
       }
+    }
+
+    public hndPointerEvent = (_event: PointerEvent): void => {
+      console.log(_event.type);
+
+      switch (_event.type) {
+        case "pointerdown":
+          this.start = new ƒ.Vector2(_event.offsetX, _event.offsetY);
+          this.mtxCurrent.copy(this.cube.mtxLocal.clone);
+          break;
+        case "pointermove":
+          if (!this.start)
+            return;
+          let move: ƒ.Vector2 = ƒ.Recycler.reuse(ƒ.Vector2);
+          move.set(_event.offsetX - this.start.x, this.start.y - _event.offsetY);
+          let mag: number = move.magnitude;
+          if (mag > 10)
+            move.normalize(10);
+          this.cube.mtxLocal.copy(this.mtxCurrent);
+          this.cube.mtxLocal.rotateX(move.y, true);
+          this.cube.mtxLocal.rotateY(move.x);
+          break;
+        case "pointerup":
+          this.reset();
+          break;
+      }
+    }
+
+    public reset = (_event?: CustomEvent): void => {
+      this.cube.mtxLocal.copy(this.mtxCurrent);
+      this.start = null;
     }
 
     // protected reduceMutator(_mutator: ƒ.Mutator): void {
