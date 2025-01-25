@@ -9,11 +9,12 @@ namespace Script {
     viewport = _event.detail;
     ƒ.Debug.setFilter(ƒ.DebugTextArea, ƒ.DEBUG_FILTER.ALL);
     document.body.appendChild(ƒ.DebugTextArea.textArea);
-    document.body.appendChild(document.createElement("h1"));
 
     const touch: ƒ.TouchEventDispatcher = new ƒ.TouchEventDispatcher(document);
     ƒ.Debug.log(touch);
-    document.addEventListener(ƒ.EVENT_TOUCH.TAP, processTouch)
+    document.addEventListener(ƒ.EVENT_TOUCH.TAP, hndEvent)
+    document.addEventListener("pointerdown", hndEvent)
+    document.addEventListener("pointermove", hndEvent)
 
     const cube: ƒ.Node = viewport.getBranch().getChildrenByName("Cube")![0];
     for (let side: number = 0; side < 6; side++) {
@@ -35,8 +36,17 @@ namespace Script {
     ƒ.AudioManager.default.update();
   }
 
-  function processTouch(_event: ƒ.EventUnified) {
-    console.log(_event);
+  function hndEvent(_event: ƒ.EventUnified) {
+    ƒ.Debug.log(_event);
+    switch (_event.type) {
+
+      case (ƒ.EVENT_TOUCH.TAP):
+        ƒ.DebugTextArea.textArea.style.backgroundColor = "green";
+        break;
+      case (ƒ.EVENT_TOUCH.NOTCH):
+        ƒ.DebugTextArea.textArea.style.backgroundColor = "blue";
+        break;
+    }
   }
 
   async function createTexture(_text: string): Promise<ƒ.TextureCanvas> {
