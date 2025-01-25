@@ -6,9 +6,17 @@ var Script;
     class Cube extends ƒ.ComponentScript {
         // Register the script as component for use in the editor via drag&drop
         static { this.iSubclass = ƒ.Component.registerSubclass(Cube); }
+        static { this.indentity = ƒ.Matrix4x4.IDENTITY(); }
+        static { this.rotate = {
+            left: [1, 2, 3, 0, 4, 5],
+            right: [3, 0, 1, 2, 4, 5],
+            up: [4, 1, 5, 3, 2, 0],
+            down: [5, 1, 4, 3, 0, 2]
+        }; }
         constructor() {
             super();
             this.mtxCurrent = new ƒ.Matrix4x4();
+            this.textures = [];
             // Activate the functions of this component as response to events
             this.hndEvent = (_event) => {
                 switch (_event.type) {
@@ -65,8 +73,11 @@ var Script;
                         move.set(0, move.y = move.y < 0 ? -step : step);
                     ƒ.Time.game.setTimer(30, 90 / step, (_event) => {
                         this.rotate(this.node, move);
-                        if (_event.lastCall)
+                        if (_event.lastCall) {
                             this.cube.mtxLocal.copy(this.mtxCurrent);
+                            this.node.mtxLocal.copy(Cube.indentity);
+                            this.rotateTextures(move);
+                        }
                     });
                     return;
                 }
@@ -91,11 +102,19 @@ var Script;
         async setTextures(_content) {
             for (let i = 0; i < 6; i++) {
                 const side = this.node.getChild(i);
-                const txr = await this.createTexture(_content[i].toString());
-                const mtr = new ƒ.Material(i.toString(), ƒ.ShaderFlatTextured);
-                mtr.coat.texture = txr;
+                const texture = await this.createTexture(_content[i].toString());
+                const material = new ƒ.Material(i.toString(), ƒ.ShaderFlatTextured);
+                material.coat.texture = texture;
                 side.removeComponent(side.getComponent(ƒ.ComponentMaterial));
-                side.addComponent(new ƒ.ComponentMaterial(mtr));
+                side.addComponent(new ƒ.ComponentMaterial(material));
+                this.textures.push(texture);
+                // this.resetTextures();
+            }
+        }
+        resetTextures() {
+            for (let i = 0; i < 6; i++) {
+                const side = this.node.getChild(i);
+                side.getComponent(ƒ.ComponentMaterial).material.coat.texture = this.textures[i];
             }
         }
         async createTexture(_text) {
@@ -131,6 +150,21 @@ var Script;
         rotate(_node, _move) {
             _node.mtxLocal.rotateX(_move.y, true);
             _node.mtxLocal.rotateY(_move.x, true);
+        }
+        rotateTextures(_move) {
+            let direction = "left";
+            if (_move.x > 0)
+                direction = "right";
+            else if (_move.y < 0)
+                direction = "up";
+            else if (_move.y > 0)
+                direction = "down";
+            let rotate = Cube.rotate[direction];
+            // ƒ.Debug.log(rotate);
+            let textures = [];
+            rotate.forEach((_index) => textures.push(this.textures[_index]));
+            this.textures = textures;
+            this.resetTextures();
         }
     }
     Script.Cube = Cube;

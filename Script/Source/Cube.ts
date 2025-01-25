@@ -10,6 +10,15 @@ namespace Script {
     private start: ƒ.Vector2;
     private mtxCurrent: ƒ.Matrix4x4 = new ƒ.Matrix4x4();
     private cube: ƒ.Node;
+    private textures: ƒ.Texture[] = [];
+    private static indentity: ƒ.Matrix4x4 = ƒ.Matrix4x4.IDENTITY();
+
+    private static rotate: { [key: string]: number[] } = {
+      left: [1, 2, 3, 0, 4, 5],
+      right: [3, 0, 1, 2, 4, 5],
+      up: [4, 1, 5, 3, 2, 0],
+      down: [5, 1, 4, 3, 0, 2]
+    }
 
 
     constructor() {
@@ -28,11 +37,21 @@ namespace Script {
     public async setTextures(_content: Content[]): Promise<void> {
       for (let i: number = 0; i < 6; i++) {
         const side: ƒ.Node = this.node.getChild(i);
-        const txr: ƒ.TextureCanvas = await this.createTexture(_content[i].toString());
-        const mtr: ƒ.Material = new ƒ.Material(i.toString(), ƒ.ShaderFlatTextured);
-        (<ƒ.CoatTextured>mtr.coat).texture = txr;
+        const texture: ƒ.TextureCanvas = await this.createTexture(_content[i].toString());
+        const material: ƒ.Material = new ƒ.Material(i.toString(), ƒ.ShaderFlatTextured);
+        (<ƒ.CoatTextured>material.coat).texture = texture;
         side.removeComponent(side.getComponent(ƒ.ComponentMaterial));
-        side.addComponent(new ƒ.ComponentMaterial(mtr));
+        side.addComponent(new ƒ.ComponentMaterial(material));
+
+        this.textures.push(texture)
+        // this.resetTextures();
+      }
+    }
+
+    private resetTextures(): void {
+      for (let i: number = 0; i < 6; i++) {
+        const side: ƒ.Node = this.node.getChild(i);
+        (<ƒ.CoatTextured>side.getComponent(ƒ.ComponentMaterial).material.coat).texture = this.textures[i];
       }
     }
 
@@ -133,8 +152,11 @@ namespace Script {
 
         ƒ.Time.game.setTimer(30, 90 / step, (_event: ƒ.EventTimer) => {
           this.rotate(this.node, move)
-          if (_event.lastCall)
+          if (_event.lastCall) {
             this.cube.mtxLocal.copy(this.mtxCurrent);
+            this.node.mtxLocal.copy(Cube.indentity);
+            this.rotateTextures(move);
+          }
         });
         return;
       }
@@ -145,6 +167,20 @@ namespace Script {
     private rotate(_node: ƒ.Node, _move: ƒ.Vector2): void {
       _node.mtxLocal.rotateX(_move.y, true);
       _node.mtxLocal.rotateY(_move.x, true);
+    }
+
+    rotateTextures(_move: ƒ.Vector2) {
+      let direction: string = "left";
+      if (_move.x > 0) direction = "right";
+      else if (_move.y < 0) direction = "up";
+      else if (_move.y > 0) direction = "down";
+
+      let rotate: number[] = Cube.rotate[direction];
+      // ƒ.Debug.log(rotate);
+      let textures: ƒ.Texture[] = [];
+      rotate.forEach((_index: number) => textures.push(this.textures[_index]));
+      this.textures = textures;
+      this.resetTextures();
     }
 
     private calcMove = (_event: PointerEvent): ƒ.Vector2 => {
