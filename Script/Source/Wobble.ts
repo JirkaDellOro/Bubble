@@ -2,11 +2,10 @@ namespace Script {
   import ƒ = FudgeCore;
   ƒ.Project.registerScriptNamespace(Script);  // Register the namespace to FUDGE for serialization
 
-  export class CustomComponentScript extends ƒ.ComponentScript {
+  export class Wobble extends ƒ.ComponentScript {
     // Register the script as component for use in the editor via drag&drop
-    public static readonly iSubclass: number = ƒ.Component.registerSubclass(CustomComponentScript);
-    // Properties may be mutated by users in the editor via the automatically created user interface
-    public message: string = "CustomComponentScript added to ";
+    public static readonly iSubclass: number = ƒ.Component.registerSubclass(Wobble);
+    #cmpMeshPivot: ƒ.Matrix4x4;
 
 
     constructor() {
@@ -26,14 +25,18 @@ namespace Script {
     public hndEvent = (_event: Event): void => {
       switch (_event.type) {
         case ƒ.EVENT.COMPONENT_ADD:
-          ƒ.Debug.log(this.message, this.node);
+          this.node.addEventListener(ƒ.EVENT.RENDER_PREPARE, this.hndEvent);
           break;
         case ƒ.EVENT.COMPONENT_REMOVE:
           this.removeEventListener(ƒ.EVENT.COMPONENT_ADD, this.hndEvent);
           this.removeEventListener(ƒ.EVENT.COMPONENT_REMOVE, this.hndEvent);
           break;
         case ƒ.EVENT.NODE_DESERIALIZED:
-          // if deserialized the node is now fully reconstructed and access to all its components and children is possible
+          this.#cmpMeshPivot = this.node.getComponent(ƒ.ComponentMesh).mtxPivot;
+          break;
+        case ƒ.EVENT.RENDER_PREPARE:
+          console.log("Prepare");
+          this.#cmpMeshPivot.scaling = new ƒ.Vector3(ƒ.Random.default.getRange(0.8, 1.2), ƒ.Random.default.getRange(0.8, 1.2), ƒ.Random.default.getRange(0.8, 1.2));
           break;
       }
     }
