@@ -2,7 +2,7 @@ namespace Script {
   import ƒ = FudgeCore;
   ƒ.Project.registerScriptNamespace(Script);  // Register the namespace to FUDGE for serialization
 
-  export type Content = string | URL;
+  export type Content = string | Request;
 
   export class Cube extends ƒ.ComponentScript {
     // Register the script as component for use in the editor via drag&drop
@@ -12,7 +12,7 @@ namespace Script {
     private cube: ƒ.Node;
     private textures: ƒ.Texture[] = [];
     private free: boolean = true;
-    
+
     private static indentity: ƒ.Matrix4x4 = ƒ.Matrix4x4.IDENTITY();
     private static rotate: { [key: string]: number[] } = {
       left: [1, 2, 3, 0, 4, 5],
@@ -38,7 +38,11 @@ namespace Script {
     public async setTextures(_content: Content[]): Promise<void> {
       for (let i: number = 0; i < 6; i++) {
         const side: ƒ.Node = this.node.getChild(i);
-        const texture: ƒ.TextureCanvas = await this.createTexture(_content[i].toString());
+        let texture: ƒ.Texture;
+        // if (_content[i] instanceof Request)
+        //   texture = new ƒ.TextureImage(_content[i].valueOf().toString());
+        // else
+          texture = await this.createTexture(_content[i].toString());
         const material: ƒ.Material = new ƒ.Material(i.toString(), ƒ.ShaderFlatTextured);
         (<ƒ.CoatTextured>material.coat).texture = texture;
         side.removeComponent(side.getComponent(ƒ.ComponentMaterial));
@@ -71,7 +75,7 @@ namespace Script {
 
       let text: HTMLSpanElement = document.createElement("span");
       // text.innerHTML = "eins zwei drei vier fünf sechs sieben acht";
-      text.innerHTML = "<h1 style='font-size:5em; text-align:center'>" + _text + "</h1>";
+      text.innerHTML = "<h1 style='font-size:3em; text-align:center'>" + _text + "</h1>";
       await drawHtmlDom(text, 0, 0, canvas.width, canvas.height)
 
       async function drawHtmlDom(_html: HTMLElement, _x: number, _y: number, _width: number, _height: number): Promise<void> {

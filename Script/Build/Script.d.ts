@@ -1,6 +1,6 @@
 declare namespace Script {
     import ƒ = FudgeCore;
-    type Content = string | URL;
+    type Content = string | Request;
     class Cube extends ƒ.ComponentScript {
         static readonly iSubclass: number;
         private start;
@@ -26,7 +26,7 @@ declare namespace Script {
     let data: {
         german: string;
         meenzer: string;
-        url: URL;
+        url: Request;
     }[];
 }
 declare namespace Script {

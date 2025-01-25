@@ -1,6 +1,8 @@
 namespace Script {
-  export let data: { german: string, meenzer: string, url: URL }[] = [
-    { german: "Sprich! Rede!", meenzer: "Babbel!", url: new URL("chat.jpg", window.location.href) },
+  export let data: { german: string, meenzer: string, url: Request }[] = [
+    { german: "Sprich! Rede!", meenzer: "Babbel!", url: new Request("./Img/chat.jpg") },
+    { german: "Augenlid", meenzer: "Aachedeckel", url: new Request("./Img/chat.jpg") },
+    { german: "Kerngehäuse vom Apfel", meenzer: "Abbelkrotze", url: new Request("./Img/chat.jpg") },
 
   ]
 }

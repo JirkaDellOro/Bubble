@@ -36,12 +36,19 @@ namespace Script {
     document.addEventListener("pointerup", hndEvent)
 
     cubes = viewport.getBranch().getChildrenByName("Cube");
-    let indices: string[] = ["a", "b", "c"];
+    // let indices: string[] = ["a", "b", "c"];
+    let contents: Content[][] = [
+      [data[0].url, data[1].url, data[0].german, data[1].meenzer, data[2].meenzer, data[2].german],
+      [data[2].german, data[1].url, data[0].german, data[0].meenzer, data[1].meenzer, data[2].german],
+      [data[1].meenzer, data[1].url, data[0].german, data[1].meenzer, data[0].meenzer, data[1].german]
+    ]
+    let index: number = 0;
     for (let cube of cubes) {
-      let index: string = indices.shift();
-      let content: Content[] = [data[0].german, data[0].german, data[0].german, data[0].meenzer, data[0].meenzer, data[0].meenzer];
+      // let index: string = indices.shift();
+      let content: Content[] = contents[index];
       // let content: Content[] = ["0" + index,"1" + index,"2" + index,"3" + index,"4" + index,"5" + index];
       await cube.getChild(0).getComponent(Cube).setTextures(content);
+      index++;
     }
 
     ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);

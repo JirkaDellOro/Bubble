@@ -106,7 +106,11 @@ var Script;
         async setTextures(_content) {
             for (let i = 0; i < 6; i++) {
                 const side = this.node.getChild(i);
-                const texture = await this.createTexture(_content[i].toString());
+                let texture;
+                // if (_content[i] instanceof Request)
+                //   texture = new ƒ.TextureImage(_content[i].valueOf().toString());
+                // else
+                texture = await this.createTexture(_content[i].toString());
                 const material = new ƒ.Material(i.toString(), ƒ.ShaderFlatTextured);
                 material.coat.texture = texture;
                 side.removeComponent(side.getComponent(ƒ.ComponentMaterial));
@@ -135,7 +139,7 @@ var Script;
             // crc2.fill();
             let text = document.createElement("span");
             // text.innerHTML = "eins zwei drei vier fünf sechs sieben acht";
-            text.innerHTML = "<h1 style='font-size:5em; text-align:center'>" + _text + "</h1>";
+            text.innerHTML = "<h1 style='font-size:3em; text-align:center'>" + _text + "</h1>";
             await drawHtmlDom(text, 0, 0, canvas.width, canvas.height);
             async function drawHtmlDom(_html, _x, _y, _width, _height) {
                 var d = "data:image/svg+xml,";
@@ -177,7 +181,9 @@ var Script;
 var Script;
 (function (Script) {
     Script.data = [
-        { german: "Sprich! Rede!", meenzer: "Babbel!", url: new URL("chat.jpg", window.location.href) },
+        { german: "Sprich! Rede!", meenzer: "Babbel!", url: new Request("./Img/chat.jpg") },
+        { german: "Augenlid", meenzer: "Aachedeckel", url: new Request("./Img/chat.jpg") },
+        { german: "Kerngehäuse vom Apfel", meenzer: "Abbelkrotze", url: new Request("./Img/chat.jpg") },
     ];
 })(Script || (Script = {}));
 var Script;
@@ -211,12 +217,19 @@ var Script;
         document.addEventListener("pointermove", hndEvent);
         document.addEventListener("pointerup", hndEvent);
         cubes = viewport.getBranch().getChildrenByName("Cube");
-        let indices = ["a", "b", "c"];
+        // let indices: string[] = ["a", "b", "c"];
+        let contents = [
+            [Script.data[0].url, Script.data[1].url, Script.data[0].german, Script.data[1].meenzer, Script.data[2].meenzer, Script.data[2].german],
+            [Script.data[2].german, Script.data[1].url, Script.data[0].german, Script.data[0].meenzer, Script.data[1].meenzer, Script.data[2].german],
+            [Script.data[1].meenzer, Script.data[1].url, Script.data[0].german, Script.data[1].meenzer, Script.data[0].meenzer, Script.data[1].german]
+        ];
+        let index = 0;
         for (let cube of cubes) {
-            let index = indices.shift();
-            let content = [Script.data[0].german, Script.data[0].german, Script.data[0].german, Script.data[0].meenzer, Script.data[0].meenzer, Script.data[0].meenzer];
+            // let index: string = indices.shift();
+            let content = contents[index];
             // let content: Content[] = ["0" + index,"1" + index,"2" + index,"3" + index,"4" + index,"5" + index];
             await cube.getChild(0).getComponent(Script.Cube).setTextures(content);
+            index++;
         }
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
         ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
