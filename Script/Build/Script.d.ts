@@ -25,6 +25,8 @@ declare namespace Script {
 declare namespace Script {
 }
 declare namespace Script {
+}
+declare namespace Script {
     import ƒ = FudgeCore;
     class Wobble extends ƒ.ComponentScript {
         #private;

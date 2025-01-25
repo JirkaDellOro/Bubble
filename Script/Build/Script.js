@@ -175,6 +175,12 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
+    let data = [
+        { german: "Sprich!, Rede!", meenzer: "Babbel!", url: new URL("chat.jpg", window.location.href) },
+    ];
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
     var ƒ = FudgeCore;
     ƒ.Debug.info("Main Program Template running!");
     let viewport;
@@ -196,7 +202,7 @@ var Script;
         viewport.draw();
         // dispatch event to signal startup done
         ƒ.Debug.setFilter(ƒ.DebugTextArea, ƒ.DEBUG_FILTER.ALL);
-        document.body.appendChild(ƒ.DebugTextArea.textArea);
+        // document.body.appendChild(ƒ.DebugTextArea.textArea);
         // const touch: ƒ.TouchEventDispatcher = new ƒ.TouchEventDispatcher(document);
         // ƒ.Debug.log(touch);
         // document.addEventListener(ƒ.EVENT_TOUCH.TAP, hndEvent)

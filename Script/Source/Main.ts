@@ -26,7 +26,7 @@ namespace Script {
 
     // dispatch event to signal startup done
     ƒ.Debug.setFilter(ƒ.DebugTextArea, ƒ.DEBUG_FILTER.ALL);
-    document.body.appendChild(ƒ.DebugTextArea.textArea);
+    // document.body.appendChild(ƒ.DebugTextArea.textArea);
 
     // const touch: ƒ.TouchEventDispatcher = new ƒ.TouchEventDispatcher(document);
     // ƒ.Debug.log(touch);
