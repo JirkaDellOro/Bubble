@@ -7,6 +7,12 @@ var Script;
     document.addEventListener("interactiveViewportStarted", start);
     async function start(_event) {
         viewport = _event.detail;
+        ƒ.Debug.setFilter(ƒ.DebugTextArea, ƒ.DEBUG_FILTER.ALL);
+        document.body.appendChild(ƒ.DebugTextArea.textArea);
+        document.body.appendChild(document.createElement("h1"));
+        const touch = new ƒ.TouchEventDispatcher(document);
+        ƒ.Debug.log(touch);
+        document.addEventListener(ƒ.EVENT_TOUCH.TAP, processTouch);
         const cube = viewport.getBranch().getChildrenByName("Cube")[0];
         for (let side = 0; side < 6; side++) {
             const node = cube.getChild(side);
@@ -23,6 +29,9 @@ var Script;
         // ƒ.Physics.simulate();  // if physics is included and used
         viewport.draw();
         ƒ.AudioManager.default.update();
+    }
+    function processTouch(_event) {
+        console.log(_event);
     }
     async function createTexture(_text) {
         const size = 100;
