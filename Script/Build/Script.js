@@ -25,19 +25,20 @@ var Script;
         ƒ.AudioManager.default.update();
     }
     async function createTexture(_text) {
-        const canvas = new OffscreenCanvas(100, 100);
+        const size = 100;
+        const canvas = new OffscreenCanvas(size, size);
         const crc2 = canvas.getContext("2d");
         const txr = new ƒ.TextureCanvas("canvas", crc2);
         crc2.fillStyle = "yellow";
-        crc2.fillRect(0, 0, 100, 100);
+        crc2.fillRect(0, 0, canvas.width, canvas.height);
         crc2.fillStyle = "black";
         crc2.strokeStyle = "black";
         crc2.font = "50px serif";
         crc2.fillText(_text, 0, 80, 100);
         crc2.fill();
         let text = document.createElement("span");
-        text.innerHTML = "eins zwei drei vier fünf sechs siebem acht";
-        drawHtmlDom(text, 0, 0, 100, 100);
+        text.innerHTML = "eins zwei drei vier fünf sechs sieben acht";
+        drawHtmlDom(text, 0, 0, canvas.width, canvas.height);
         async function drawHtmlDom(_html, _x, _y, _width, _height) {
             var d = "data:image/svg+xml,";
             d += "<svg xmlns='http://www.w3.org/2000/svg' width='" + _width + "' height='" + _height + "' >";

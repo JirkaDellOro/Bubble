@@ -29,11 +29,12 @@ namespace Script {
   }
 
   async function createTexture(_text: string): Promise<ƒ.TextureCanvas> {
-    const canvas: OffscreenCanvas = new OffscreenCanvas(100, 100);
+    const size: number = 100;
+    const canvas: OffscreenCanvas = new OffscreenCanvas(size, size);
     const crc2: OffscreenCanvasRenderingContext2D = canvas.getContext("2d");
     const txr: ƒ.TextureCanvas = new ƒ.TextureCanvas("canvas", crc2);
     crc2.fillStyle = "yellow";
-    crc2.fillRect(0, 0, 100, 100);
+    crc2.fillRect(0, 0, canvas.width, canvas.height);
     crc2.fillStyle = "black";
     crc2.strokeStyle = "black";
     crc2.font = "50px serif";
@@ -41,8 +42,8 @@ namespace Script {
     crc2.fill();
 
     let text: HTMLSpanElement = document.createElement("span");
-    text.innerHTML = "eins zwei drei vier fünf sechs siebem acht";
-    drawHtmlDom(text, 0, 0, 100, 100)
+    text.innerHTML = "eins zwei drei vier fünf sechs sieben acht";
+    drawHtmlDom(text, 0, 0, canvas.width, canvas.height)
 
     async function drawHtmlDom(_html: HTMLElement, _x: number, _y: number, _width: number, _height: number): Promise<void> {
       var d: string = "data:image/svg+xml,";
