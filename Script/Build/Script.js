@@ -122,20 +122,21 @@ var Script;
             }
         }
         async createTexture(_text) {
-            const size = 100;
+            const size = 300;
             const canvas = new OffscreenCanvas(size, size);
             const crc2 = canvas.getContext("2d");
             const txr = new ƒ.TextureCanvas("canvas", crc2);
-            crc2.fillStyle = "yellow";
+            crc2.fillStyle = "white";
             crc2.fillRect(0, 0, canvas.width, canvas.height);
             crc2.fillStyle = "black";
             crc2.strokeStyle = "black";
             crc2.font = "50px serif";
-            crc2.fillText(_text, 0, 80, 100);
-            crc2.fill();
+            // crc2.fillText(_text, 0, 80, 100);
+            // crc2.fill();
             let text = document.createElement("span");
-            text.innerHTML = "eins zwei drei vier fünf sechs sieben acht";
-            drawHtmlDom(text, 0, 0, canvas.width, canvas.height);
+            // text.innerHTML = "eins zwei drei vier fünf sechs sieben acht";
+            text.innerHTML = "<h1 style='font-size:5em; text-align:center'>" + _text + "</h1>";
+            await drawHtmlDom(text, 0, 0, canvas.width, canvas.height);
             async function drawHtmlDom(_html, _x, _y, _width, _height) {
                 var d = "data:image/svg+xml,";
                 d += "<svg xmlns='http://www.w3.org/2000/svg' width='" + _width + "' height='" + _height + "' >";
@@ -175,8 +176,8 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
-    let data = [
-        { german: "Sprich!, Rede!", meenzer: "Babbel!", url: new URL("chat.jpg", window.location.href) },
+    Script.data = [
+        { german: "Sprich! Rede!", meenzer: "Babbel!", url: new URL("chat.jpg", window.location.href) },
     ];
 })(Script || (Script = {}));
 var Script;
@@ -213,7 +214,8 @@ var Script;
         let indices = ["a", "b", "c"];
         for (let cube of cubes) {
             let index = indices.shift();
-            let content = ["0" + index, "1" + index, "2" + index, "3" + index, "4" + index, "5" + index];
+            let content = [Script.data[0].german, Script.data[0].german, Script.data[0].german, Script.data[0].meenzer, Script.data[0].meenzer, Script.data[0].meenzer];
+            // let content: Content[] = ["0" + index,"1" + index,"2" + index,"3" + index,"4" + index,"5" + index];
             await cube.getChild(0).getComponent(Script.Cube).setTextures(content);
         }
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);

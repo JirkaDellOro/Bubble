@@ -57,21 +57,22 @@ namespace Script {
     }
 
     private async createTexture(_text: string): Promise<ƒ.TextureCanvas> {
-      const size: number = 100;
+      const size: number = 300;
       const canvas: OffscreenCanvas = new OffscreenCanvas(size, size);
       const crc2: OffscreenCanvasRenderingContext2D = canvas.getContext("2d");
       const txr: ƒ.TextureCanvas = new ƒ.TextureCanvas("canvas", crc2);
-      crc2.fillStyle = "yellow";
+      crc2.fillStyle = "white";
       crc2.fillRect(0, 0, canvas.width, canvas.height);
       crc2.fillStyle = "black";
       crc2.strokeStyle = "black";
       crc2.font = "50px serif";
-      crc2.fillText(_text, 0, 80, 100);
-      crc2.fill();
+      // crc2.fillText(_text, 0, 80, 100);
+      // crc2.fill();
 
       let text: HTMLSpanElement = document.createElement("span");
-      text.innerHTML = "eins zwei drei vier fünf sechs sieben acht";
-      drawHtmlDom(text, 0, 0, canvas.width, canvas.height)
+      // text.innerHTML = "eins zwei drei vier fünf sechs sieben acht";
+      text.innerHTML = "<h1 style='font-size:5em; text-align:center'>" + _text + "</h1>";
+      await drawHtmlDom(text, 0, 0, canvas.width, canvas.height)
 
       async function drawHtmlDom(_html: HTMLElement, _x: number, _y: number, _width: number, _height: number): Promise<void> {
         var d: string = "data:image/svg+xml,";
@@ -115,7 +116,7 @@ namespace Script {
     private hndPointerEvent = (_event: PointerEvent): void => {
       if (!this.free)
         return;
-      
+
       switch (_event.type) {
         case "pointerdown":
           this.start = new ƒ.Vector2(_event.offsetX, _event.offsetY);

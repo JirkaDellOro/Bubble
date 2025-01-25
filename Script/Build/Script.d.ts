@@ -23,6 +23,11 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    let data: {
+        german: string;
+        meenzer: string;
+        url: URL;
+    }[];
 }
 declare namespace Script {
 }

@@ -39,7 +39,8 @@ namespace Script {
     let indices: string[] = ["a", "b", "c"];
     for (let cube of cubes) {
       let index: string = indices.shift();
-      let content: Content[] = ["0" + index,"1" + index,"2" + index,"3" + index,"4" + index,"5" + index];
+      let content: Content[] = [data[0].german, data[0].german, data[0].german, data[0].meenzer, data[0].meenzer, data[0].meenzer];
+      // let content: Content[] = ["0" + index,"1" + index,"2" + index,"3" + index,"4" + index,"5" + index];
       await cube.getChild(0).getComponent(Cube).setTextures(content);
     }
 
