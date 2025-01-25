@@ -40,23 +40,23 @@ namespace Script {
     crc2.fillText(_text, 0, 80, 100);
     crc2.fill();
 
-    // let text: HTMLSpanElement = document.createElement("span");
-    // text.innerHTML = "Ag";
-    // drawHtmlDom(text, 0, 0, 100, 100)
+    let text: HTMLSpanElement = document.createElement("span");
+    text.innerHTML = "eins zwei drei vier fünf sechs siebem acht";
+    drawHtmlDom(text, 0, 0, 100, 100)
 
-    // async function drawHtmlDom(_html: HTMLElement, _x: number, _y: number, _width: number, _height: number): void {
-    //   var d: string = "data:image/svg+xml,";
-    //   d += "<svg xmlns='http://www.w3.org/2000/svg' width='" + _width + "' height='" + _height + "' >";
-    //   d += "<foreignObject width='100%' height ='100%'>";
-    //   d += "<div xmlns='http://www.w3.org/1999/xhtml'>";
-    //   d += _html.outerHTML;
-    //   d += "</div></foreignObject></svg>";
-    //   var i: HTMLImageElement = new Image();
-    //   i.onload = await async function (): Promise<void> {
-    //     crc2.drawImage(i, _x, _y);
-    //   };
-    //   i.src = d;
-    // }
+    async function drawHtmlDom(_html: HTMLElement, _x: number, _y: number, _width: number, _height: number): Promise<void> {
+      var d: string = "data:image/svg+xml,";
+      d += "<svg xmlns='http://www.w3.org/2000/svg' width='" + _width + "' height='" + _height + "' >";
+      d += "<foreignObject width='100%' height ='100%'>";
+      d += "<div xmlns='http://www.w3.org/1999/xhtml'>";
+      d += _html.outerHTML;
+      d += "</div></foreignObject></svg>";
+      var i: HTMLImageElement = new Image();
+      i.src = d;
+      crc2.drawImage(i, _x, _y);
+      // i.onload = await async function (): Promise<void> {
+      // };
+    }
 
     return txr;
   }
