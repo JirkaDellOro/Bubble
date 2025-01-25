@@ -2,6 +2,8 @@ namespace Script {
   import ƒ = FudgeCore;
   ƒ.Project.registerScriptNamespace(Script);  // Register the namespace to FUDGE for serialization
 
+  export type Content = string | URL;
+
   export class Cube extends ƒ.ComponentScript {
     // Register the script as component for use in the editor via drag&drop
     public static readonly iSubclass: number = ƒ.Component.registerSubclass(Cube);
@@ -23,8 +25,53 @@ namespace Script {
       this.addEventListener(ƒ.EVENT.NODE_DESERIALIZED, this.hndEvent);
     }
 
+    public async setTextures(_content: Content[]): Promise<void> {
+      for (let i: number = 0; i < 6; i++) {
+        const side: ƒ.Node = this.node.getChild(i);
+        const txr: ƒ.TextureCanvas = await this.createTexture(_content[i].toString());
+        const mtr: ƒ.Material = new ƒ.Material(i.toString(), ƒ.ShaderFlatTextured);
+        (<ƒ.CoatTextured>mtr.coat).texture = txr;
+        side.removeComponent(side.getComponent(ƒ.ComponentMaterial));
+        side.addComponent(new ƒ.ComponentMaterial(mtr));
+      }
+    }
+
+    private async createTexture(_text: string): Promise<ƒ.TextureCanvas> {
+      const size: number = 100;
+      const canvas: OffscreenCanvas = new OffscreenCanvas(size, size);
+      const crc2: OffscreenCanvasRenderingContext2D = canvas.getContext("2d");
+      const txr: ƒ.TextureCanvas = new ƒ.TextureCanvas("canvas", crc2);
+      crc2.fillStyle = "yellow";
+      crc2.fillRect(0, 0, canvas.width, canvas.height);
+      crc2.fillStyle = "black";
+      crc2.strokeStyle = "black";
+      crc2.font = "50px serif";
+      crc2.fillText(_text, 0, 80, 100);
+      crc2.fill();
+
+      let text: HTMLSpanElement = document.createElement("span");
+      text.innerHTML = "eins zwei drei vier fünf sechs sieben acht";
+      drawHtmlDom(text, 0, 0, canvas.width, canvas.height)
+
+      async function drawHtmlDom(_html: HTMLElement, _x: number, _y: number, _width: number, _height: number): Promise<void> {
+        var d: string = "data:image/svg+xml,";
+        d += "<svg xmlns='http://www.w3.org/2000/svg' width='" + _width + "' height='" + _height + "' >";
+        d += "<foreignObject width='100%' height ='100%'>";
+        d += "<div xmlns='http://www.w3.org/1999/xhtml'>";
+        d += _html.outerHTML;
+        d += "</div></foreignObject></svg>";
+        var i: HTMLImageElement = new Image();
+        i.src = d;
+        crc2.drawImage(i, _x, _y);
+        // i.onload = await async function (): Promise<void> {
+        // };
+      }
+
+      return txr;
+    }
+
     // Activate the functions of this component as response to events
-    public hndEvent = (_event: Event): void => {
+    private hndEvent = (_event: Event): void => {
       switch (_event.type) {
         case ƒ.EVENT.COMPONENT_ADD:
           this.node.addEventListener("pointerdown", <ƒ.EventListenerUnified>this.hndPointerEvent);
@@ -37,8 +84,10 @@ namespace Script {
           this.removeEventListener(ƒ.EVENT.COMPONENT_REMOVE, this.hndEvent);
           break;
         case ƒ.EVENT.NODE_DESERIALIZED:
+          // this.node.addEventListener(ƒ.EVENT.CHILD_APPEND, (_event: Event) => {
           this.cube = this.node.getParent();
           this.mtxCurrent.copy(this.cube.mtxLocal.clone);
+          // });
           break;
       }
     }
@@ -76,12 +125,13 @@ namespace Script {
 
       if (move.magnitude > 9.9) {
         ƒ.DebugTextArea.textArea.style.backgroundColor = "red";
+        const step: number = 6;
         if (Math.abs(move.x) > Math.abs(move.y))
-          move.set(move.x = move.x < 0 ? -2 : 2, 0);
+          move.set(move.x = move.x < 0 ? -step : step, 0);
         else
-          move.set(0, move.y = move.y < 0 ? -2 : 2);
+          move.set(0, move.y = move.y < 0 ? -step : step);
 
-        ƒ.Time.game.setTimer(10, 45, (_event: ƒ.EventTimer) => {
+        ƒ.Time.game.setTimer(30, 90 / step, (_event: ƒ.EventTimer) => {
           this.rotate(this.node, move)
           if (_event.lastCall)
             this.cube.mtxLocal.copy(this.mtxCurrent);

@@ -1,12 +1,15 @@
 declare namespace Script {
     import ƒ = FudgeCore;
+    type Content = string | URL;
     class Cube extends ƒ.ComponentScript {
         static readonly iSubclass: number;
         private start;
         private mtxCurrent;
         private cube;
         constructor();
-        hndEvent: (_event: Event) => void;
+        setTextures(_content: Content[]): Promise<void>;
+        private createTexture;
+        private hndEvent;
         private hndPointerEvent;
         private reset;
         private rotate;

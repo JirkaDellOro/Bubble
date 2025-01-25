@@ -23,8 +23,10 @@ var Script;
                         this.removeEventListener("componentRemove" /* ƒ.EVENT.COMPONENT_REMOVE */, this.hndEvent);
                         break;
                     case "nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */:
+                        // this.node.addEventListener(ƒ.EVENT.CHILD_APPEND, (_event: Event) => {
                         this.cube = this.node.getParent();
                         this.mtxCurrent.copy(this.cube.mtxLocal.clone);
+                        // });
                         break;
                 }
             };
@@ -56,11 +58,12 @@ var Script;
                 ƒ.DebugTextArea.textArea.style.backgroundColor = "green";
                 if (move.magnitude > 9.9) {
                     ƒ.DebugTextArea.textArea.style.backgroundColor = "red";
+                    const step = 6;
                     if (Math.abs(move.x) > Math.abs(move.y))
-                        move.set(move.x = move.x < 0 ? -2 : 2, 0);
+                        move.set(move.x = move.x < 0 ? -step : step, 0);
                     else
-                        move.set(0, move.y = move.y < 0 ? -2 : 2);
-                    ƒ.Time.game.setTimer(10, 45, (_event) => {
+                        move.set(0, move.y = move.y < 0 ? -step : step);
+                    ƒ.Time.game.setTimer(30, 90 / step, (_event) => {
                         this.rotate(this.node, move);
                         if (_event.lastCall)
                             this.cube.mtxLocal.copy(this.mtxCurrent);
@@ -84,6 +87,46 @@ var Script;
             this.addEventListener("componentAdd" /* ƒ.EVENT.COMPONENT_ADD */, this.hndEvent);
             this.addEventListener("componentRemove" /* ƒ.EVENT.COMPONENT_REMOVE */, this.hndEvent);
             this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, this.hndEvent);
+        }
+        async setTextures(_content) {
+            for (let i = 0; i < 6; i++) {
+                const side = this.node.getChild(i);
+                const txr = await this.createTexture(_content[i].toString());
+                const mtr = new ƒ.Material(i.toString(), ƒ.ShaderFlatTextured);
+                mtr.coat.texture = txr;
+                side.removeComponent(side.getComponent(ƒ.ComponentMaterial));
+                side.addComponent(new ƒ.ComponentMaterial(mtr));
+            }
+        }
+        async createTexture(_text) {
+            const size = 100;
+            const canvas = new OffscreenCanvas(size, size);
+            const crc2 = canvas.getContext("2d");
+            const txr = new ƒ.TextureCanvas("canvas", crc2);
+            crc2.fillStyle = "yellow";
+            crc2.fillRect(0, 0, canvas.width, canvas.height);
+            crc2.fillStyle = "black";
+            crc2.strokeStyle = "black";
+            crc2.font = "50px serif";
+            crc2.fillText(_text, 0, 80, 100);
+            crc2.fill();
+            let text = document.createElement("span");
+            text.innerHTML = "eins zwei drei vier fünf sechs sieben acht";
+            drawHtmlDom(text, 0, 0, canvas.width, canvas.height);
+            async function drawHtmlDom(_html, _x, _y, _width, _height) {
+                var d = "data:image/svg+xml,";
+                d += "<svg xmlns='http://www.w3.org/2000/svg' width='" + _width + "' height='" + _height + "' >";
+                d += "<foreignObject width='100%' height ='100%'>";
+                d += "<div xmlns='http://www.w3.org/1999/xhtml'>";
+                d += _html.outerHTML;
+                d += "</div></foreignObject></svg>";
+                var i = new Image();
+                i.src = d;
+                crc2.drawImage(i, _x, _y);
+                // i.onload = await async function (): Promise<void> {
+                // };
+            }
+            return txr;
         }
         rotate(_node, _move) {
             _node.mtxLocal.rotateX(_move.y, true);
@@ -116,22 +159,18 @@ var Script;
         // dispatch event to signal startup done
         ƒ.Debug.setFilter(ƒ.DebugTextArea, ƒ.DEBUG_FILTER.ALL);
         document.body.appendChild(ƒ.DebugTextArea.textArea);
-        const touch = new ƒ.TouchEventDispatcher(document);
-        ƒ.Debug.log(touch);
-        document.addEventListener(ƒ.EVENT_TOUCH.TAP, hndEvent);
+        // const touch: ƒ.TouchEventDispatcher = new ƒ.TouchEventDispatcher(document);
+        // ƒ.Debug.log(touch);
+        // document.addEventListener(ƒ.EVENT_TOUCH.TAP, hndEvent)
         document.addEventListener("pointerdown", hndEvent);
         document.addEventListener("pointermove", hndEvent);
         document.addEventListener("pointerup", hndEvent);
         cubes = viewport.getBranch().getChildrenByName("Cube");
+        let indices = ["a", "b", "c"];
         for (let cube of cubes) {
-            for (let side = 0; side < 6; side++) {
-                const node = cube.getChild(0).getChild(side);
-                const txr = await createTexture(side.toString());
-                const mtr = new ƒ.Material(side.toString(), ƒ.ShaderFlatTextured);
-                mtr.coat.texture = txr;
-                node.removeComponent(node.getComponent(ƒ.ComponentMaterial));
-                node.addComponent(new ƒ.ComponentMaterial(mtr));
-            }
+            let index = indices.shift();
+            let content = ["0" + index, "1" + index, "2" + index, "3" + index, "4" + index, "5" + index];
+            await cube.getChild(0).getComponent(Script.Cube).setTextures(content);
         }
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
         ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
@@ -150,36 +189,6 @@ var Script;
                 graph.broadcastEvent(new CustomEvent("reset", { detail: _event }));
                 break;
         }
-    }
-    async function createTexture(_text) {
-        const size = 100;
-        const canvas = new OffscreenCanvas(size, size);
-        const crc2 = canvas.getContext("2d");
-        const txr = new ƒ.TextureCanvas("canvas", crc2);
-        crc2.fillStyle = "yellow";
-        crc2.fillRect(0, 0, canvas.width, canvas.height);
-        crc2.fillStyle = "black";
-        crc2.strokeStyle = "black";
-        crc2.font = "50px serif";
-        crc2.fillText(_text, 0, 80, 100);
-        crc2.fill();
-        let text = document.createElement("span");
-        text.innerHTML = "eins zwei drei vier fünf sechs sieben acht";
-        drawHtmlDom(text, 0, 0, canvas.width, canvas.height);
-        async function drawHtmlDom(_html, _x, _y, _width, _height) {
-            var d = "data:image/svg+xml,";
-            d += "<svg xmlns='http://www.w3.org/2000/svg' width='" + _width + "' height='" + _height + "' >";
-            d += "<foreignObject width='100%' height ='100%'>";
-            d += "<div xmlns='http://www.w3.org/1999/xhtml'>";
-            d += _html.outerHTML;
-            d += "</div></foreignObject></svg>";
-            var i = new Image();
-            i.src = d;
-            crc2.drawImage(i, _x, _y);
-            // i.onload = await async function (): Promise<void> {
-            // };
-        }
-        return txr;
     }
 })(Script || (Script = {}));
 var Script;
