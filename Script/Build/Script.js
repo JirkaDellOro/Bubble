@@ -13,7 +13,7 @@ var Script;
         ƒ.Debug.log(touch);
         document.addEventListener(ƒ.EVENT_TOUCH.TAP, hndEvent);
         document.addEventListener("pointerdown", hndEvent);
-        document.addEventListener("pointermove", hndEvent);
+        document.addEventListener("pointerup", hndEvent);
         const cube = viewport.getBranch().getChildrenByName("Cube")[0];
         for (let side = 0; side < 6; side++) {
             const node = cube.getChild(side);
@@ -32,12 +32,14 @@ var Script;
         ƒ.AudioManager.default.update();
     }
     function hndEvent(_event) {
-        ƒ.Debug.log(_event);
+        ƒ.Debug.log(_event.type);
         switch (_event.type) {
             case (ƒ.EVENT_TOUCH.TAP):
+            case ("pointerdown"):
                 ƒ.DebugTextArea.textArea.style.backgroundColor = "green";
                 break;
             case (ƒ.EVENT_TOUCH.NOTCH):
+            case ("pointerup"):
                 ƒ.DebugTextArea.textArea.style.backgroundColor = "blue";
                 break;
         }

@@ -14,7 +14,7 @@ namespace Script {
     ƒ.Debug.log(touch);
     document.addEventListener(ƒ.EVENT_TOUCH.TAP, hndEvent)
     document.addEventListener("pointerdown", hndEvent)
-    document.addEventListener("pointermove", hndEvent)
+    document.addEventListener("pointerup", hndEvent)
 
     const cube: ƒ.Node = viewport.getBranch().getChildrenByName("Cube")![0];
     for (let side: number = 0; side < 6; side++) {
@@ -37,13 +37,14 @@ namespace Script {
   }
 
   function hndEvent(_event: ƒ.EventUnified) {
-    ƒ.Debug.log(_event);
+    ƒ.Debug.log(_event.type);
     switch (_event.type) {
-
       case (ƒ.EVENT_TOUCH.TAP):
+      case ("pointerdown"):
         ƒ.DebugTextArea.textArea.style.backgroundColor = "green";
         break;
       case (ƒ.EVENT_TOUCH.NOTCH):
+      case ("pointerup"):
         ƒ.DebugTextArea.textArea.style.backgroundColor = "blue";
         break;
     }
