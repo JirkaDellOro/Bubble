@@ -360,11 +360,10 @@ var Script;
         img.splice(win[2], 0, solution.img);
         // setup cubes with the information about the contents and the correct side
         let contents = [meenzer, german, img];
-        let index = 0;
-        for (let cube of cubes) {
+        for (let index in cubes) {
             let content = contents[index];
-            await cube.getChild(0).getComponent(Script.Cube).setTextures(content, win[index]);
-            index++;
+            await cubes[index].getChild(0).getComponent(Script.Cube).setTextures(content, win[index]);
+            cubes[index].mtxLocal.rotateY(10 * (1 - Number(index)));
         }
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
         ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a

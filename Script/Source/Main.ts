@@ -66,11 +66,10 @@ namespace Script {
 
     // setup cubes with the information about the contents and the correct side
     let contents: Content[][] = [meenzer, german, img];
-    let index: number = 0;
-    for (let cube of cubes) {
+    for (let index in cubes) {
       let content: Content[] = contents[index];
-      await cube.getChild(0).getComponent(Cube).setTextures(content, win[index]);
-      index++;
+      await cubes[index].getChild(0).getComponent(Cube).setTextures(content, win[index]);
+      cubes[index].mtxLocal.rotateY(10 * (1 - Number(index)));
     }
 
     ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);
