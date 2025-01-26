@@ -28,26 +28,48 @@ namespace Script {
     ƒ.Debug.setFilter(ƒ.DebugTextArea, ƒ.DEBUG_FILTER.ALL);
     // document.body.appendChild(ƒ.DebugTextArea.textArea);
 
-    // const touch: ƒ.TouchEventDispatcher = new ƒ.TouchEventDispatcher(document);
-    // ƒ.Debug.log(touch);
-    // document.addEventListener(ƒ.EVENT_TOUCH.TAP, hndEvent)
     document.addEventListener("pointerdown", hndEvent)
     document.addEventListener("pointermove", hndEvent)
     document.addEventListener("pointerup", hndEvent)
 
     cubes = viewport.getBranch().getChildrenByName("Cube");
-    // let indices: string[] = ["a", "b", "c"];
-    let contents: Content[][] = [
-      [data[0].url, data[1].url, data[0].german, data[1].meenzer, data[2].meenzer, data[2].german],
-      [data[2].german, data[1].url, data[0].german, data[0].meenzer, data[1].meenzer, data[2].german],
-      [data[1].meenzer, data[1].url, data[0].german, data[1].meenzer, data[0].meenzer, data[1].german]
-    ]
+
+    //create an array for controlled randomness
+    let lines: number[] = [];
+    for (let i: number = 0; i < data.length; i++)
+      lines.push(i);
+
+    // pick the line to ask for
+    let solution: Data = data[ƒ.Random.default.splice(lines)];
+
+    let meenzer: string[] = [];
+    let german: string[] = [];
+    let img: Request[] = [];
+
+    // choose 5 wrong answers per category
+    for (let i: number = 0; i < 5; i++) {
+      meenzer.push(data[ƒ.Random.default.splice(lines)].meenzer);
+      german.push(data[ƒ.Random.default.splice(lines)].german);
+      img.push(data[ƒ.Random.default.splice(lines)].img);
+    }
+
+    // choose winning combination
+    let win: number[] = [];
+    for (let i: number = 0; i < 3; i++)
+      win.push(ƒ.Random.default.getRangeFloored(0, 6));
+
+    // insert correct answers at winning positions into each cube
+    meenzer.splice(win[0], 0, solution.meenzer);
+    german.splice(win[1], 0, solution.german);
+    img.splice(win[2], 0, solution.img);
+
+
+    // setup cubes with the information about the contents and the correct side
+    let contents: Content[][] = [meenzer, german, img];
     let index: number = 0;
     for (let cube of cubes) {
-      // let index: string = indices.shift();
       let content: Content[] = contents[index];
-      // let content: Content[] = ["0" + index,"1" + index,"2" + index,"3" + index,"4" + index,"5" + index];
-      await cube.getChild(0).getComponent(Cube).setTextures(content);
+      await cube.getChild(0).getComponent(Cube).setTextures(content, win[index]);
       index++;
     }
 
@@ -69,7 +91,21 @@ namespace Script {
     switch (_event.type) {
       case ("pointerup"):
         graph.broadcastEvent(new CustomEvent("reset", { detail: _event }));
+        checkWin();
         break;
     }
   }
+  function checkWin(): boolean {
+    let check: boolean[] = [];
+    let win: boolean = true;
+    for (let cube of cubes) {
+      let correct: boolean = cube.getChild(0).getComponent(Cube).check()
+      check.push(correct);
+      if (!correct)
+        win = false;
+    }
+    console.log(check);
+    return win;
+  }
 }
+

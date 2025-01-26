@@ -104,7 +104,7 @@ var Script;
             this.addEventListener("componentRemove" /* ƒ.EVENT.COMPONENT_REMOVE */, this.hndEvent);
             this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, this.hndEvent);
         }
-        async setTextures(_content) {
+        async setTextures(_content, _correct) {
             for (let i = 0; i < 6; i++) {
                 const side = this.node.getChild(i);
                 let texture;
@@ -119,8 +119,12 @@ var Script;
                 side.removeComponent(side.getComponent(ƒ.ComponentMaterial));
                 side.addComponent(new ƒ.ComponentMaterial(material));
                 this.textures.push(texture);
-                // this.resetTextures();
+                if (i == _correct)
+                    this.correct = texture;
             }
+        }
+        check() {
+            return (this.textures[0] == this.correct);
         }
         resetTextures() {
             for (let i = 0; i < 6; i++) {
@@ -132,7 +136,7 @@ var Script;
             const size = 300;
             const canvas = new OffscreenCanvas(size, size);
             const crc2 = canvas.getContext("2d");
-            const txr = new ƒ.TextureCanvas("canvas", crc2);
+            const texture = new ƒ.TextureCanvas("canvas", crc2);
             crc2.fillStyle = "white";
             crc2.fillRect(0, 0, canvas.width, canvas.height);
             crc2.fillStyle = "black";
@@ -158,7 +162,7 @@ var Script;
                     };
                 });
             }
-            return txr;
+            return texture;
         }
         rotate(_node, _move) {
             _node.mtxLocal.rotateX(_move.y, true);
@@ -185,120 +189,120 @@ var Script;
 var Script;
 (function (Script) {
     Script.data = [
-        { meenzer: "Babbel!", german: "Sprich! Rede!", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Aach", german: "Auge", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Aachedeckel", german: "Augenlid", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "aarisch", german: "sehr", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Äbbel", german: "Äpfel", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Abbelkrotze", german: "Kerngehäuse vom Apfel", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Adschee", german: "Adieu", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "ald Scheckel", german: "alte Frau", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "alleweil", german: "jetzt sofort", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Atzel", german: "Perücke", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "babbisch Gutzje", german: "schmutzige Frau oder Kind", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Batschel", german: "ungeschickter Mensch", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Batschkabb", german: "Schirmmütze", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Berzel", german: "	Kopf", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Blummescherb", german: "Blumentopf aus Ton", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Blunz", german: "Blutwurst", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Bobbelche", german: "Säugling", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Bobbes", german: "Gesäß", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Bollesje", german: "Gefängnis", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Bombo", german: "Bonbon", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Borzel", german: "kleines Kind", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "bossele", german: "basteln", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Brockelscher", german: "Rosenkohl", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Butze", german: "Polizist", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Butzebebel", german: "Nasenpopel", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Dibbsche", german: "kleiner Topf", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Dibbe", german: "Topf", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "dick Blunz", german: "Schimpfwort für eine dicke Frau", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Dierschlink", german: "Türklinke", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Dorscht", german: "Durst", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Dubbee", german: "Toupet", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Dutt", german: "Tüte", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Geil", german: "Pferde", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Geilskniddel", german: "Pferdeapfel", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Gemies", german: "Gemüse", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "gemoschderd", german: "unmögliche Kleiderkombination", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Gutzje", german: "Bonbon", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Haggele", german: "Kiefer- oder Tannenzapfen", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Haggesjer", german: "Milchzähne", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Herrgottsdierche", german: "Marienkäfer", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "ibberhibbelt", german: "übersprungen oder übergangen", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Kabb", german: "Mütze", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Kabottche", german: "unmoderner Hut", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Katzuff", german: "Metzger", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Kerb", german: "Kirchweihfest", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Kerch", german: "Kirche", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Kimmche", german: "große Tasse", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Kinnerschees", german: "Kinderwagen", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Knadscher", german: "Bäcker", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Knerzje", german: "Endstück vom Brot oder Braten", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Kniddel", german: "Tierkot", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Knolle", german: "polizeiliche Geldstrafe", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Kobberd", german: "Kopfsprung", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Krebbel", german: "Berliner bzw. Krapfen", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Krimmele", german: "Krümel", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Lomberie", german: "Bodenabschlussleiste an der Wand", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Lattwerch", german: "steif gekochtes Zwetschgenmus", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Liehbeidel", german: "Lügner", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "machulle", german: "bankrott", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Meggeldasch", german: "Einkaufstasche", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Mick", german: "Mücke", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Mickeblatsch", german: "Fliegenklatsche", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Mutsch", german: "Kosewort für Mutter", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Nuddelche", german: "Schnuller", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Nuddelfläschje", german: "Trinkflasche mit Sauger", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Oongstschisser", german: "ängstlicher Mensch", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Oonk", german: "Genick", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "oogeduddelt", german: "angetrunken", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "pischbern", german: "flüstern", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Prottsche", german: "polizeiliche Geldstrafe", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Quetsche", german: "Zwetschgen bzw. Pflaumen", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Rachebutzer", german: "saurer Wein", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "rack", german: "steif", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Reitschul", german: "Kinderkarussell", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Ribbelkuche", german: "Streuselkuchen", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Rotzfohn", german: "Taschentuch", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Rullo", german: "Jalousie", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "schebb", german: "schief und krumm", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Schelleklobbe", german: "klingeln und dann wegrennen", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Schinnos", german: "Luder", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Schlebbche", german: "Schleifchen", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Schlibber", german: "Holzsplitter in der Haut", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Schlickse", german: "Schluckauf", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Schlobb", german: "Schleife", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Schminzje", german: "zierliches Kind", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Schmiss", german: "Schläge", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "schneegelisch", german: "wählerisch beim Essen", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Schnorres", german: "Schnauzbart", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Schnut", german: "Mund", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "schnuddelisch", german: "unsauber", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "schnuckele", german: "naschen", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Schockelgaul", german: "Schaukelpferd", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Schrumbele", german: "Falten im Gesicht", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Säckel", german: "Tasche in Kleidungsstücken", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Spätzje", german: "Penis", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Stiftekopp", german: "kurz geschnittene Haare", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "strunzen", german: "angeben", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Strunzer", german: "Prahler", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Stumbe", german: "Zigarre", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "vebummbeidelt", german: "verschlampt", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Verdel", german: "achtel Liter Wein", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Verdelsbutze", german: "Polizist in einem Stadtteil", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "veklebbern", german: "verrühren", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "veklickern", german: "genau erklären", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Wombe", german: "dicker Bauch", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Welljerholz", german: "Nudelholz", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Worscht", german: "Wurst", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Worzelberscht", german: "Wurzelbürste", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Wutz", german: "Schwein", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Wutzebeehle", german: "schlampige Frau", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Zibbelsche", german: "Endstück der Wurst", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "zobbele", german: "zupfen", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Zores", german: "Gesindel", url: new Request("./Img/Questionmark.png") },
-        { meenzer: "Zwerndobbsch", german: "kleines lebhaftes Kind", url: new Request("./Img/Questionmark.png") }
+        { meenzer: "Babbel!", german: "Sprich! Rede!", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Aach", german: "Auge", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Aachedeckel", german: "Augenlid", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "aarisch", german: "sehr", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Äbbel", german: "Äpfel", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Abbelkrotze", german: "Kerngehäuse vom Apfel", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Adschee", german: "Adieu", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "ald Scheckel", german: "alte Frau", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "alleweil", german: "jetzt sofort", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Atzel", german: "Perücke", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "babbisch Gutzje", german: "schmutzige Frau oder Kind", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Batschel", german: "ungeschickter Mensch", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Batschkabb", german: "Schirmmütze", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Berzel", german: "	Kopf", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Blummescherb", german: "Blumentopf aus Ton", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Blunz", german: "Blutwurst", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Bobbelche", german: "Säugling", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Bobbes", german: "Gesäß", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Bollesje", german: "Gefängnis", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Bombo", german: "Bonbon", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Borzel", german: "kleines Kind", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "bossele", german: "basteln", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Brockelscher", german: "Rosenkohl", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Butze", german: "Polizist", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Butzebebel", german: "Nasenpopel", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Dibbsche", german: "kleiner Topf", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Dibbe", german: "Topf", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "dick Blunz", german: "Schimpfwort für eine dicke Frau", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Dierschlink", german: "Türklinke", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Dorscht", german: "Durst", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Dubbee", german: "Toupet", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Dutt", german: "Tüte", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Geil", german: "Pferde", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Geilskniddel", german: "Pferdeapfel", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Gemies", german: "Gemüse", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "gemoschderd", german: "unmögliche Kleiderkombination", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Gutzje", german: "Bonbon", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Haggele", german: "Kiefer- oder Tannenzapfen", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Haggesjer", german: "Milchzähne", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Herrgottsdierche", german: "Marienkäfer", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "ibberhibbelt", german: "übersprungen oder übergangen", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Kabb", german: "Mütze", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Kabottche", german: "unmoderner Hut", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Katzuff", german: "Metzger", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Kerb", german: "Kirchweihfest", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Kerch", german: "Kirche", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Kimmche", german: "große Tasse", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Kinnerschees", german: "Kinderwagen", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Knadscher", german: "Bäcker", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Knerzje", german: "Endstück vom Brot oder Braten", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Kniddel", german: "Tierkot", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Knolle", german: "polizeiliche Geldstrafe", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Kobberd", german: "Kopfsprung", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Krebbel", german: "Berliner bzw. Krapfen", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Krimmele", german: "Krümel", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Lomberie", german: "Bodenabschlussleiste an der Wand", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Lattwerch", german: "steif gekochtes Zwetschgenmus", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Liehbeidel", german: "Lügner", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "machulle", german: "bankrott", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Meggeldasch", german: "Einkaufstasche", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Mick", german: "Mücke", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Mickeblatsch", german: "Fliegenklatsche", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Mutsch", german: "Kosewort für Mutter", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Nuddelche", german: "Schnuller", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Nuddelfläschje", german: "Trinkflasche mit Sauger", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Oongstschisser", german: "ängstlicher Mensch", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Oonk", german: "Genick", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "oogeduddelt", german: "angetrunken", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "pischbern", german: "flüstern", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Prottsche", german: "polizeiliche Geldstrafe", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Quetsche", german: "Zwetschgen bzw. Pflaumen", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Rachebutzer", german: "saurer Wein", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "rack", german: "steif", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Reitschul", german: "Kinderkarussell", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Ribbelkuche", german: "Streuselkuchen", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Rotzfohn", german: "Taschentuch", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Rullo", german: "Jalousie", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "schebb", german: "schief und krumm", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Schelleklobbe", german: "klingeln und dann wegrennen", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Schinnos", german: "Luder", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Schlebbche", german: "Schleifchen", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Schlibber", german: "Holzsplitter in der Haut", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Schlickse", german: "Schluckauf", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Schlobb", german: "Schleife", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Schminzje", german: "zierliches Kind", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Schmiss", german: "Schläge", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "schneegelisch", german: "wählerisch beim Essen", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Schnorres", german: "Schnauzbart", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Schnut", german: "Mund", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "schnuddelisch", german: "unsauber", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "schnuckele", german: "naschen", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Schockelgaul", german: "Schaukelpferd", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Schrumbele", german: "Falten im Gesicht", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Säckel", german: "Tasche in Kleidungsstücken", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Spätzje", german: "Penis", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Stiftekopp", german: "kurz geschnittene Haare", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "strunzen", german: "angeben", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Strunzer", german: "Prahler", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Stumbe", german: "Zigarre", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "vebummbeidelt", german: "verschlampt", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Verdel", german: "achtel Liter Wein", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Verdelsbutze", german: "Polizist in einem Stadtteil", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "veklebbern", german: "verrühren", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "veklickern", german: "genau erklären", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Wombe", german: "dicker Bauch", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Welljerholz", german: "Nudelholz", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Worscht", german: "Wurst", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Worzelberscht", german: "Wurzelbürste", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Wutz", german: "Schwein", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Wutzebeehle", german: "schlampige Frau", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Zibbelsche", german: "Endstück der Wurst", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "zobbele", german: "zupfen", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Zores", german: "Gesindel", img: new Request("./Img/Questionmark.png") },
+        { meenzer: "Zwerndobbsch", german: "kleines lebhaftes Kind", img: new Request("./Img/Questionmark.png") }
     ];
 })(Script || (Script = {}));
 var Script;
@@ -325,25 +329,39 @@ var Script;
         // dispatch event to signal startup done
         ƒ.Debug.setFilter(ƒ.DebugTextArea, ƒ.DEBUG_FILTER.ALL);
         // document.body.appendChild(ƒ.DebugTextArea.textArea);
-        // const touch: ƒ.TouchEventDispatcher = new ƒ.TouchEventDispatcher(document);
-        // ƒ.Debug.log(touch);
-        // document.addEventListener(ƒ.EVENT_TOUCH.TAP, hndEvent)
         document.addEventListener("pointerdown", hndEvent);
         document.addEventListener("pointermove", hndEvent);
         document.addEventListener("pointerup", hndEvent);
         cubes = viewport.getBranch().getChildrenByName("Cube");
-        // let indices: string[] = ["a", "b", "c"];
-        let contents = [
-            [Script.data[0].url, Script.data[1].url, Script.data[0].german, Script.data[1].meenzer, Script.data[2].meenzer, Script.data[2].german],
-            [Script.data[2].german, Script.data[1].url, Script.data[0].german, Script.data[0].meenzer, Script.data[1].meenzer, Script.data[2].german],
-            [Script.data[1].meenzer, Script.data[1].url, Script.data[0].german, Script.data[1].meenzer, Script.data[0].meenzer, Script.data[1].german]
-        ];
+        //create an array for controlled randomness
+        let lines = [];
+        for (let i = 0; i < Script.data.length; i++)
+            lines.push(i);
+        // pick the line to ask for
+        let solution = Script.data[ƒ.Random.default.splice(lines)];
+        let meenzer = [];
+        let german = [];
+        let img = [];
+        // choose 5 wrong answers per category
+        for (let i = 0; i < 5; i++) {
+            meenzer.push(Script.data[ƒ.Random.default.splice(lines)].meenzer);
+            german.push(Script.data[ƒ.Random.default.splice(lines)].german);
+            img.push(Script.data[ƒ.Random.default.splice(lines)].img);
+        }
+        // choose winning combination
+        let win = [];
+        for (let i = 0; i < 3; i++)
+            win.push(ƒ.Random.default.getRangeFloored(0, 6));
+        // insert correct answers at winning positions into each cube
+        meenzer.splice(win[0], 0, solution.meenzer);
+        german.splice(win[1], 0, solution.german);
+        img.splice(win[2], 0, solution.img);
+        // setup cubes with the information about the contents and the correct side
+        let contents = [meenzer, german, img];
         let index = 0;
         for (let cube of cubes) {
-            // let index: string = indices.shift();
             let content = contents[index];
-            // let content: Content[] = ["0" + index,"1" + index,"2" + index,"3" + index,"4" + index,"5" + index];
-            await cube.getChild(0).getComponent(Script.Cube).setTextures(content);
+            await cube.getChild(0).getComponent(Script.Cube).setTextures(content, win[index]);
             index++;
         }
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
@@ -361,8 +379,21 @@ var Script;
         switch (_event.type) {
             case ("pointerup"):
                 graph.broadcastEvent(new CustomEvent("reset", { detail: _event }));
+                checkWin();
                 break;
         }
+    }
+    function checkWin() {
+        let check = [];
+        let win = true;
+        for (let cube of cubes) {
+            let correct = cube.getChild(0).getComponent(Script.Cube).check();
+            check.push(correct);
+            if (!correct)
+                win = false;
+        }
+        console.log(check);
+        return win;
     }
 })(Script || (Script = {}));
 var Script;

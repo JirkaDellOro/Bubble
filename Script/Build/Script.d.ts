@@ -8,10 +8,12 @@ declare namespace Script {
         private cube;
         private textures;
         private free;
+        private correct;
         private static indentity;
         private static rotate;
         constructor();
-        setTextures(_content: Content[]): Promise<void>;
+        setTextures(_content: Content[], _correct: number): Promise<void>;
+        check(): boolean;
         private resetTextures;
         private createTexture;
         private hndEvent;
@@ -23,11 +25,12 @@ declare namespace Script {
     }
 }
 declare namespace Script {
-    let data: {
+    type Data = {
         german: string;
         meenzer: string;
-        url: Request;
-    }[];
+        img: Request;
+    };
+    let data: Data[];
 }
 declare namespace Script {
 }

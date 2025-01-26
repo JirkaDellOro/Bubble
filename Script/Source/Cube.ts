@@ -12,6 +12,7 @@ namespace Script {
     private cube: ƒ.Node;
     private textures: ƒ.Texture[] = [];
     private free: boolean = true;
+    private correct: ƒ.Texture;
 
     private static indentity: ƒ.Matrix4x4 = ƒ.Matrix4x4.IDENTITY();
     private static rotate: { [key: string]: number[] } = {
@@ -35,7 +36,7 @@ namespace Script {
       this.addEventListener(ƒ.EVENT.NODE_DESERIALIZED, this.hndEvent);
     }
 
-    public async setTextures(_content: Content[]): Promise<void> {
+    public async setTextures(_content: Content[], _correct: number): Promise<void> {
       for (let i: number = 0; i < 6; i++) {
         const side: ƒ.Node = this.node.getChild(i);
         let texture: ƒ.Texture;
@@ -51,8 +52,13 @@ namespace Script {
         side.addComponent(new ƒ.ComponentMaterial(material));
 
         this.textures.push(texture)
-        // this.resetTextures();
+        if (i == _correct)
+          this.correct = texture;
       }
+    }
+
+    public check(): boolean {
+      return (this.textures[0] == this.correct);
     }
 
     private resetTextures(): void {
@@ -66,7 +72,7 @@ namespace Script {
       const size: number = 300;
       const canvas: OffscreenCanvas = new OffscreenCanvas(size, size);
       const crc2: OffscreenCanvasRenderingContext2D = canvas.getContext("2d");
-      const txr: ƒ.TextureCanvas = new ƒ.TextureCanvas("canvas", crc2);
+      const texture: ƒ.TextureCanvas = new ƒ.TextureCanvas("canvas", crc2);
       crc2.fillStyle = "white";
       crc2.fillRect(0, 0, canvas.width, canvas.height);
       crc2.fillStyle = "black";
@@ -96,7 +102,7 @@ namespace Script {
         });
       }
 
-      return txr;
+      return texture;
     }
 
     // Activate the functions of this component as response to events
