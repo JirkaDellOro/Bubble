@@ -335,6 +335,16 @@ var Script;
         document.addEventListener("pointerup", hndEvent);
         graph.addEventListener("check", checkWin);
         cubes = viewport.getBranch().getChildrenByName("Cube");
+        await setupCubes();
+        ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
+        ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
+    }
+    function update(_event) {
+        // ƒ.Physics.simulate();  // if physics is included and used
+        viewport.draw();
+        ƒ.AudioManager.default.update();
+    }
+    async function setupCubes() {
         //create an array for controlled randomness
         let lines = [];
         for (let i = 0; i < Script.data.length; i++)
@@ -365,13 +375,6 @@ var Script;
             await cubes[index].getChild(0).getComponent(Script.Cube).setTextures(content, win[index]);
             cubes[index].mtxLocal.rotateY(10 * (1 - Number(index)));
         }
-        ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
-        ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
-    }
-    function update(_event) {
-        // ƒ.Physics.simulate();  // if physics is included and used
-        viewport.draw();
-        ƒ.AudioManager.default.update();
     }
     function hndEvent(_event) {
         for (let cube of cubes)
@@ -383,7 +386,7 @@ var Script;
                 break;
         }
     }
-    function checkWin() {
+    async function checkWin() {
         let check = [];
         let win = true;
         for (let cube of cubes) {
@@ -393,6 +396,10 @@ var Script;
                 win = false;
         }
         console.log(check);
+        if (win) {
+            alert("Ei wunnerbaah!");
+            await setupCubes();
+        }
         return win;
     }
 })(Script || (Script = {}));

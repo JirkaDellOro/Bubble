@@ -33,7 +33,19 @@ namespace Script {
     graph.addEventListener("check", checkWin);
 
     cubes = viewport.getBranch().getChildrenByName("Cube");
+    await setupCubes();
 
+    ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);
+    ƒ.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
+  }
+
+  function update(_event: Event): void {
+    // ƒ.Physics.simulate();  // if physics is included and used
+    viewport.draw();
+    ƒ.AudioManager.default.update();
+  }
+
+  async function setupCubes(): Promise<void> {
     //create an array for controlled randomness
     let lines: number[] = [];
     for (let i: number = 0; i < data.length; i++)
@@ -71,15 +83,6 @@ namespace Script {
       await cubes[index].getChild(0).getComponent(Cube).setTextures(content, win[index]);
       cubes[index].mtxLocal.rotateY(10 * (1 - Number(index)));
     }
-
-    ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);
-    ƒ.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
-  }
-
-  function update(_event: Event): void {
-    // ƒ.Physics.simulate();  // if physics is included and used
-    viewport.draw();
-    ƒ.AudioManager.default.update();
   }
 
   function hndEvent(_event: ƒ.EventUnified | PointerEvent) {
@@ -93,7 +96,7 @@ namespace Script {
         break;
     }
   }
-  function checkWin(): boolean {
+  async function checkWin(): Promise<boolean> {
     let check: boolean[] = [];
     let win: boolean = true;
     for (let cube of cubes) {
@@ -103,6 +106,10 @@ namespace Script {
         win = false;
     }
     console.log(check);
+    if (win) {
+      alert("Ei wunnerbaah!");
+      await setupCubes();
+    }
     return win;
   }
 }
