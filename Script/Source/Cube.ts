@@ -39,9 +39,11 @@ namespace Script {
       for (let i: number = 0; i < 6; i++) {
         const side: ƒ.Node = this.node.getChild(i);
         let texture: ƒ.Texture;
-        // if (_content[i] instanceof Request)
-        //   texture = new ƒ.TextureImage(_content[i].valueOf().toString());
-        // else
+        if (_content[i] instanceof Request) {
+          texture = new ƒ.TextureImage();
+          await ((<ƒ.TextureImage>texture).load)(Reflect.get(<Object>_content[i], "url"));
+        }
+        else
           texture = await this.createTexture(_content[i].toString());
         const material: ƒ.Material = new ƒ.Material(i.toString(), ƒ.ShaderFlatTextured);
         (<ƒ.CoatTextured>material.coat).texture = texture;
@@ -111,7 +113,8 @@ namespace Script {
         case ƒ.EVENT.NODE_DESERIALIZED:
           // this.node.addEventListener(ƒ.EVENT.CHILD_APPEND, (_event: Event) => {
           this.cube = this.node.getParent();
-          this.mtxCurrent.copy(this.cube.mtxLocal.clone);
+          if (this.cube)
+            this.mtxCurrent.copy(this.cube.mtxLocal.clone);
           // });
           break;
       }

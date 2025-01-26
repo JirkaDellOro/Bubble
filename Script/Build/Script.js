@@ -34,7 +34,8 @@ var Script;
                     case "nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */:
                         // this.node.addEventListener(ƒ.EVENT.CHILD_APPEND, (_event: Event) => {
                         this.cube = this.node.getParent();
-                        this.mtxCurrent.copy(this.cube.mtxLocal.clone);
+                        if (this.cube)
+                            this.mtxCurrent.copy(this.cube.mtxLocal.clone);
                         // });
                         break;
                 }
@@ -107,10 +108,12 @@ var Script;
             for (let i = 0; i < 6; i++) {
                 const side = this.node.getChild(i);
                 let texture;
-                // if (_content[i] instanceof Request)
-                //   texture = new ƒ.TextureImage(_content[i].valueOf().toString());
-                // else
-                texture = await this.createTexture(_content[i].toString());
+                if (_content[i] instanceof Request) {
+                    texture = new ƒ.TextureImage();
+                    await (texture.load)(Reflect.get(_content[i], "url"));
+                }
+                else
+                    texture = await this.createTexture(_content[i].toString());
                 const material = new ƒ.Material(i.toString(), ƒ.ShaderFlatTextured);
                 material.coat.texture = texture;
                 side.removeComponent(side.getComponent(ƒ.ComponentMaterial));
