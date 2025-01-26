@@ -14,7 +14,7 @@ namespace Script {
     { meenzer: "Atzel", german: "Perücke", img: new Request("./Img/Wig.png") },
     { meenzer: "babbisch", german: "schmutzige", img: new Request("./Img/Fleck.png") },
     { meenzer: "Batschel", german: "ungeschickter Mensch", img: new Request("./Img/Clumsy.png") },
-    { meenzer: "Batschkabb", german: "Schirmmütze", img: new Request("./Img/Batsch.png") },
+    { meenzer: "Batschkabb", german: "Schirmmütze", img: new Request("./Img/Batschkapp.png") },
     { meenzer: "Berzel", german: "Kopf", img: new Request("./Img/Kopf.png") },
     { meenzer: "Blummescherb", german: "Blumentopf aus Ton", img: new Request("./Img/Blumentopf.png") },
     { meenzer: "Blunz", german: "Blutwurst", img: new Request("./Img/Blutwurst.png") },
