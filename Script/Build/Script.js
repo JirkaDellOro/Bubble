@@ -82,6 +82,7 @@ var Script;
                             this.node.mtxLocal.copy(Cube.indentity);
                             this.rotateTextures(move);
                             this.free = true;
+                            this.node.dispatchEvent(new Event("check", { bubbles: true }));
                         }
                     });
                     return;
@@ -332,6 +333,7 @@ var Script;
         document.addEventListener("pointerdown", hndEvent);
         document.addEventListener("pointermove", hndEvent);
         document.addEventListener("pointerup", hndEvent);
+        graph.addEventListener("check", checkWin);
         cubes = viewport.getBranch().getChildrenByName("Cube");
         //create an array for controlled randomness
         let lines = [];
@@ -379,7 +381,6 @@ var Script;
         switch (_event.type) {
             case ("pointerup"):
                 graph.broadcastEvent(new CustomEvent("reset", { detail: _event }));
-                checkWin();
                 break;
         }
     }

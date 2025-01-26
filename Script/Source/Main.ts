@@ -12,7 +12,6 @@ namespace Script {
     viewport.camera.mtxPivot.translateZ(-5);
     graph = viewport.getBranch();
 
-
     // setup audio
     let cmpListener/* : ƒ.ComponentAudioListener */ = new ƒ.ComponentAudioListener();
     graph.addComponent(cmpListener);
@@ -31,6 +30,7 @@ namespace Script {
     document.addEventListener("pointerdown", hndEvent)
     document.addEventListener("pointermove", hndEvent)
     document.addEventListener("pointerup", hndEvent)
+    graph.addEventListener("check", checkWin);
 
     cubes = viewport.getBranch().getChildrenByName("Cube");
 
@@ -91,7 +91,6 @@ namespace Script {
     switch (_event.type) {
       case ("pointerup"):
         graph.broadcastEvent(new CustomEvent("reset", { detail: _event }));
-        checkWin();
         break;
     }
   }

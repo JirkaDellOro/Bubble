@@ -109,6 +109,38 @@
       "alphaClip": 0.01
     }
   },
+  "Material|2025-01-26T11:46:41.519Z|93656": {
+    "ƒ.Material": {
+      "name": "ShaderLitTextured",
+      "idResource": "Material|2025-01-26T11:46:41.519Z|93656",
+      "shader": "ShaderLitTextured",
+      "coat": {
+        "ƒ.CoatTextured": {
+          "color": "[1, 1, 1, 1]",
+          "idTexture": "TextureImage|2025-01-26T11:45:23.142Z|94984"
+        }
+      },
+      "alphaClip": 0.01
+    }
+  },
+  "TextureImage|2025-01-26T11:45:23.142Z|94984": {
+    "ƒ.TextureImage": {
+      "url": "Img\\Mainz.jpg",
+      "type": "TextureImage",
+      "Texture": {
+        "idResource": "TextureImage|2025-01-26T11:45:23.142Z|94984",
+        "name": "Img\\Mainz.jpg",
+        "mipmap": "CRISP",
+        "wrap": "REPEAT"
+      }
+    }
+  },
+  "MeshQuad|2025-01-25T12:38:43.351Z|53133": {
+    "ƒ.MeshQuad": {
+      "idResource": "MeshQuad|2025-01-25T12:38:43.351Z|53133",
+      "name": "Quad"
+    }
+  },
   "Graph|2025-01-24T21:14:48.191Z|65927": {
     "ƒ.Graph": {
       "name": "Scene",
@@ -243,16 +275,52 @@
               }
             ]
           }
+        },
+        {
+          "ƒ.Node": {
+            "name": "Background",
+            "active": true,
+            "components": {
+              "ComponentMaterial": [
+                {
+                  "ƒ.ComponentMaterial": {
+                    "sortForAlpha": false,
+                    "clrPrimary": "[1, 1, 1, 1]",
+                    "clrSecondary": "[1, 1, 1, 1]",
+                    "pivot": {
+                      "translation": "[0, 0]",
+                      "rotation": 0,
+                      "scaling": "[1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    },
+                    "idMaterial": "Material|2025-01-26T11:46:41.519Z|93656"
+                  }
+                }
+              ],
+              "ComponentMesh": [
+                {
+                  "ƒ.ComponentMesh": {
+                    "idMesh": "MeshQuad|2025-01-25T12:38:43.351Z|53133",
+                    "pivot": {
+                      "translation": "[0, 1, 2]",
+                      "rotation": "[0, 180, 0]",
+                      "scaling": "[8, 8, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": []
+          }
         }
       ],
       "idResource": "Graph|2025-01-24T21:14:48.191Z|65927",
       "type": "Graph"
-    }
-  },
-  "MeshQuad|2025-01-25T12:38:43.351Z|53133": {
-    "ƒ.MeshQuad": {
-      "idResource": "MeshQuad|2025-01-25T12:38:43.351Z|53133",
-      "name": "Quad"
     }
   },
   "Graph|2025-01-25T12:36:35.361Z|88195": {
@@ -280,7 +348,8 @@
                   "y": 1,
                   "z": 1
                 }
-              }
+              },
+              "free": true
             }
           }
         ],

@@ -176,6 +176,7 @@ namespace Script {
             this.node.mtxLocal.copy(Cube.indentity);
             this.rotateTextures(move);
             this.free = true;
+            this.node.dispatchEvent(new Event("check", {bubbles:true}));
           }
         });
         return;
