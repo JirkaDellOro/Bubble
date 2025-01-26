@@ -77,7 +77,6 @@ namespace Script {
     { meenzer: "Reitschul", german: "Kinderkarussell", img: new Request("./Img/Questionmark.png") },
     { meenzer: "Ribbelkuche", german: "Streuselkuchen", img: new Request("./Img/Questionmark.png") },
     { meenzer: "Rotzfohn", german: "Taschentuch", img: new Request("./Img/Questionmark.png") },
-    { meenzer: "Rullo", german: "Jalousie", img: new Request("./Img/Questionmark.png") },
     { meenzer: "schebb", german: "schief und krumm", img: new Request("./Img/Questionmark.png") },
     { meenzer: "Schelleklobbe", german: "klingeln und dann wegrennen", img: new Request("./Img/Questionmark.png") },
     { meenzer: "Schinnos", german: "Luder", img: new Request("./Img/Questionmark.png") },

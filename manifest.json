@@ -1,17 +1,9 @@
 {
-  "id": "/",
-  "name": "Bubble nit",
-  "short_name": "Bubble nit",
-  "start_url": "./index.html",
+  "name": "Bubble NIT",
+  "short_name": "Bubble NIT",
+  "start_url": ".",
   "display": "fullscreen",
-  "background_color": "#f00",
+  "background_color" : "#f00" ,
   "orientation": "landscape",
-  "description": "A game created during THE LÄND Global Game Jam 2025",
-  "icons": [
-    {
-      "src": "./Img/Questionmark.png",
-      "type": "image/png",
-      "sizes": "144x144"
-    }
-  ]
+  "description": "A game created during the Global Game Jam 2025""
 }
