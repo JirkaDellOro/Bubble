@@ -35,6 +35,10 @@ namespace Script {
     cubes = viewport.getBranch().getChildrenByName("Cube");
     await setupCubes();
 
+    // for (let line of data) {
+    //   await fetch(line.img);
+    // }
+
     ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);
     ƒ.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
   }
