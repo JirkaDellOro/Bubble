@@ -138,8 +138,6 @@ var Script;
             crc2.fillStyle = "black";
             crc2.strokeStyle = "black";
             crc2.font = "50px serif";
-            // crc2.fillText(_text, 0, 80, 100);
-            // crc2.fill();
             let text = document.createElement("span");
             // text.innerHTML = "eins zwei drei vier fünf sechs sieben acht";
             text.innerHTML = "<h1 style='font-size:3em; text-align:center'>" + _text + "</h1>";
@@ -151,11 +149,14 @@ var Script;
                 d += "<div xmlns='http://www.w3.org/1999/xhtml'>";
                 d += _html.outerHTML;
                 d += "</div></foreignObject></svg>";
-                var i = new Image();
-                i.src = d;
-                crc2.drawImage(i, _x, _y);
-                // i.onload = await async function (): Promise<void> {
-                // };
+                return new Promise((_resolve, _reject) => {
+                    var img = new Image();
+                    img.src = d;
+                    img.onload = () => {
+                        crc2.drawImage(img, _x, _y);
+                        _resolve();
+                    };
+                });
             }
             return txr;
         }
