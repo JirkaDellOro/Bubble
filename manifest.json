@@ -9,7 +9,7 @@
   "description": "A game created during THE LÄND Global Game Jam 2025",
   "icons": [
     {
-      "src": "/Img/Questionmark.png",
+      "src": "./Img/Questionmark.png",
       "type": "image/png",
       "sizes": "144x144"
     }
