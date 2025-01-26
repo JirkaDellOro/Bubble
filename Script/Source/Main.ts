@@ -108,7 +108,7 @@ namespace Script {
     console.log(check);
     if (win) {
       alert("Ei wunnerbaah!");
-      await setupCubes();
+      window.location.reload();
     }
     return win;
   }
