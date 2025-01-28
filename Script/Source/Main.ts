@@ -111,10 +111,17 @@ namespace Script {
     }
     console.log(check);
     if (win) {
-      alert("Ei wunnerbaah!");
-      window.location.reload();
+      showWon();
     }
     return win;
+  }
+
+  function showWon(): void {
+    let dialog: HTMLDialogElement = document.createElement("dialog");
+    document.body.appendChild(dialog);
+    dialog.showModal();
+    dialog.innerHTML = "<h1>Ei wunnerbaah!</h1>";
+    dialog.addEventListener("click", () => window.location.reload());
   }
 }
 

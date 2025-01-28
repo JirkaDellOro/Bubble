@@ -202,9 +202,9 @@ var Script;
         { meenzer: "Atzel", german: "Perücke", img: new Request("./Img/Wig.png") },
         { meenzer: "babbisch", german: "schmutzige", img: new Request("./Img/Fleck.png") },
         { meenzer: "Batschel", german: "ungeschickter Mensch", img: new Request("./Img/Clumsy.png") },
-        { meenzer: "Batschkabb", german: "Schirmmütze", img: new Request("./Img/Batsch.png") },
+        { meenzer: "Batschkabb", german: "Schirmmütze", img: new Request("./Img/Batschkapp.png") },
         { meenzer: "Berzel", german: "Kopf", img: new Request("./Img/Kopf.png") },
-        { meenzer: "Blummescherb", german: "Blumentopf aus Ton", img: new Request("./Img/Blumentopf.png") },
+        { meenzer: "Blumme-scherb", german: "Blumentopf aus Ton", img: new Request("./Img/Blumentopf.png") },
         { meenzer: "Blunz", german: "Blutwurst", img: new Request("./Img/Blutwurst.png") },
         { meenzer: "Bobbelche", german: "Säugling", img: new Request("./Img/Baby.png") },
         { meenzer: "Bobbes", german: "Gesäß", img: new Request("./Img/Po.png") },
@@ -224,16 +224,16 @@ var Script;
         { meenzer: "Geil", german: "Pferde", img: new Request("./Img/Pferde.png") },
         { meenzer: "Geilskniddel", german: "Pferdeapfel", img: new Request("./Img/Pferdekot.png") },
         { meenzer: "Gemies", german: "Gemüse", img: new Request("./Img/Veggi.png") },
-        { meenzer: "gemoschderd", german: "unmögliche Kleiderkombination", img: new Request("./Img/Klamotte.png") },
+        { meenzer: "gemoschderd", german: "unmögliche Keider-kombination", img: new Request("./Img/Klamotte.png") },
         { meenzer: "Gutzje", german: "Bonbon", img: new Request("./Img/Bonbon.png") },
         { meenzer: "Haggele", german: "Kiefer- oder Tannenzapfen", img: new Request("./Img/Zapfen.png") },
         { meenzer: "Haggesjer", german: "Milchzähne", img: new Request("./Img/Teeth.png") },
-        { meenzer: "Herrgottsdierche", german: "Marienkäfer", img: new Request("./Img/Bug.png") },
+        { meenzer: "Herrgotts-dierche", german: "Marienkäfer", img: new Request("./Img/Bug.png") },
         { meenzer: "ibberhibbelt", german: "übersprungen oder übergangen", img: new Request("./Img/Jump.png") },
         { meenzer: "Kabb", german: "Mütze", img: new Request("./Img/Cap.png") },
         { meenzer: "Kabottche", german: "unmoderner Hut", img: new Request("./Img/Hat.png") },
         { meenzer: "Katzuff", german: "Metzger", img: new Request("./Img/Metzger.png") },
-        { meenzer: "Kerb", german: "Kirchweihfest", img: new Request("./Img/Kerb.png") },
+        { meenzer: "Kerb", german: "Kirchweih-fest", img: new Request("./Img/Kerb.png") },
         { meenzer: "Kerch", german: "Kirche", img: new Request("./Img/Kirche.png") },
         // { meenzer: "Kimmche", german: "große Tasse", img: new Request("./Img/Questionmark.png") },
         // { meenzer: "Kinnerschees", german: "Kinderwagen", img: new Request("./Img/Questionmark.png") },
@@ -244,17 +244,17 @@ var Script;
         { meenzer: "Kobberd", german: "Kopfsprung", img: new Request("./Img/Kopfsprung.png") },
         { meenzer: "Krebbel", german: "Berliner bzw. Krapfen", img: new Request("./Img/Krebbel.png") },
         { meenzer: "Krimmele", german: "Krümel", img: new Request("./Img/Crumbs.png") },
-        { meenzer: "Lomberie", german: "Bodenabschlussleiste an der Wand", img: new Request("./Img/Leiste.png") },
-        { meenzer: "Lattwerch", german: "steif gekochtes Zwetschgenmus", img: new Request("./Img/Lattwerch.png") },
+        { meenzer: "Lomberie", german: "Boden-abschluss-leiste an der Wand", img: new Request("./Img/Leiste.png") },
+        { meenzer: "Lattwerch", german: "steif gekochtes Zwetschgen-mus", img: new Request("./Img/Lattwerch.png") },
         { meenzer: "Liehbeidel", german: "Lügner", img: new Request("./Img/Lier.png") },
         { meenzer: "machulle", german: "bankrott", img: new Request("./Img/Poor.png") },
-        { meenzer: "Meggeldasch", german: "Einkaufstasche", img: new Request("./Img/Bag.png") },
+        { meenzer: "Meggeldasch", german: "Einkaufs-tasche", img: new Request("./Img/Bag.png") },
         { meenzer: "Mick", german: "Mücke", img: new Request("./Img/Mick.png") },
         { meenzer: "Mickeblatsch", german: "Fliegenklatsche", img: new Request("./Img/Batsch.png") },
         { meenzer: "Mutsch", german: "Kosewort für Mutter", img: new Request("./Img/Mutsch.png") },
         { meenzer: "Nuddelche", german: "Schnuller", img: new Request("./Img/Schnuller.png") },
-        { meenzer: "Nuddelfläschje", german: "Trinkflasche mit Sauger", img: new Request("./Img/Flasche.png") },
-        { meenzer: "Oongstschisser", german: "ängstlicher Mensch", img: new Request("./Img/Schisser.png") },
+        { meenzer: "Nuddel-fläschje", german: "Trinkflasche mit Sauger", img: new Request("./Img/Flasche.png") },
+        { meenzer: "Oongst-schisser", german: "ängstlicher Mensch", img: new Request("./Img/Schisser.png") },
         { meenzer: "Oonk", german: "Genick", img: new Request("./Img/Genick.png") },
         { meenzer: "oogeduddelt", german: "angetrunken", img: new Request("./Img/Suff.png") },
         { meenzer: "pischbern", german: "flüstern", img: new Request("./Img/Pischbern.png") },
@@ -262,7 +262,7 @@ var Script;
         { meenzer: "Quetsche", german: "Zwetschgen bzw. Pflaumen", img: new Request("./Img/Quetsche.png") },
         { meenzer: "Rachebutzer", german: "saurer Wein", img: new Request("./Img/Wein.png") },
         { meenzer: "rack", german: "steif", img: new Request("./Img/Steif.png") },
-        { meenzer: "Reitschul", german: "Kinderkarussell", img: new Request("./Img/Karussell.png") },
+        { meenzer: "Reitschul", german: "Kinder-karussell", img: new Request("./Img/Karussell.png") },
         { meenzer: "Ribbelkuche", german: "Streuselkuchen", img: new Request("./Img/Kuchen.png") },
         { meenzer: "Rotzfohn", german: "Taschentuch", img: new Request("./Img/Taschentuch.png") },
         { meenzer: "schebb", german: "schief und krumm", img: new Request("./Img/Schief.png") },
@@ -281,7 +281,7 @@ var Script;
         // { meenzer: "schnuckele", german: "naschen", img: new Request("./Img/Questionmark.png") },
         // { meenzer: "Schockelgaul", german: "Schaukelpferd", img: new Request("./Img/Questionmark.png") },
         { meenzer: "Schrumbele", german: "Falten im Gesicht", img: new Request("./Img/Alte.png") },
-        { meenzer: "Säckel", german: "Tasche in Kleidungsstücken", img: new Request("./Img/Poor.png") },
+        { meenzer: "Säckel", german: "Tasche in Kleidungs-stücken", img: new Request("./Img/Poor.png") },
         // { meenzer: "Spätzje", german: "Penis", img: new Request("./Img/Questionmark.png") },
         // { meenzer: "Stiftekopp", german: "kurz geschnittene Haare", img: new Request("./Img/Questionmark.png") },
         // { meenzer: "strunzen", german: "angeben", img: new Request("./Img/Questionmark.png") },
@@ -398,10 +398,16 @@ var Script;
         }
         console.log(check);
         if (win) {
-            alert("Ei wunnerbaah!");
-            window.location.reload();
+            showWon();
         }
         return win;
+    }
+    function showWon() {
+        let dialog = document.createElement("dialog");
+        document.body.appendChild(dialog);
+        dialog.showModal();
+        dialog.innerHTML = "<h1>Ei wunnerbaah!</h1>";
+        dialog.addEventListener("click", () => window.location.reload());
     }
 })(Script || (Script = {}));
 var Script;
