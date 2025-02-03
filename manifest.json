@@ -2,7 +2,7 @@
   "name": "Bubble NIT",
   "short_name": "Bubble NIT",
   "start_url": ".",
-  "display": "fullscreen",
+  "display": "standalone",
   "background_color" : "#f00" ,
   "orientation": "landscape",
   "description": "A game created during the Global Game Jam 2025",
